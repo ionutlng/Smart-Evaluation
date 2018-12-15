@@ -1,0 +1,42 @@
+﻿@model Evaluation.Models.Exam
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Exam</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.nrQuestions)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.nrQuestions)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.examTime)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.examTime)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.examDifficulty)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.examDifficulty)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Profesor)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Profesor.Password)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.eId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
