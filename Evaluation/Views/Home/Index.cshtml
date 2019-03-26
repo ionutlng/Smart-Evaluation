@@ -1,5 +1,57 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model Evaluation.Models.StudentLogIn;
+
+@{
+    ViewData["Title"] = "Evaluare";
 }
 
-<h1> sal</h1>
+<div class="container">
+    <div class="d-flex justify-content-center h-100">
+        <div class="card">
+            <div class="card-header">
+                <h3>Log In</h3>
+            </div>
+            <div class="card-body">
+                <form>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        </div>
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "Email" } })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class=" input-group mb-4">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-key"></i></span>
+                        </div>
+                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @placeholder = "Password" } })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class=" input-group mb-4">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                @Html.EditorFor(model => model.RememberMe)
+                                @Html.ValidationMessageFor(model => model.RememberMe, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.RememberMe, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                    </div>
+                    @Html.ActionLink("Login", "Index", "Students")
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+}
+
+@section Styles{
+    <link href="@Url.Content("~/css/homepage.css")" rel="stylesheet" type="text/css" />
+}

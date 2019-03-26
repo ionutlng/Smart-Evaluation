@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.1",
-    "signature": "4c49ae02d40b4767e9787a087fb9ae159d3a8f83"
+    "signature": "07a2648382a455678d4db87ae5faf918586fb30c"
   },
   "compilationOptions": {
     "defines": [
@@ -30,7 +30,9 @@
           "Microsoft.NETCore.App": "2.1.0",
           "Microsoft.Owin": "4.0.0",
           "Microsoft.Owin.Host.SystemWeb": "4.0.0",
-          "Microsoft.VisualStudio.Web.CodeGeneration.Design": "2.1.6"
+          "Microsoft.VisualStudio.Web.CodeGeneration.Design": "2.1.6",
+          "bootstrap": "4.2.1",
+          "bootstrap.sass": "4.2.1"
         },
         "runtime": {
           "Evaluation.dll": {}
@@ -39,6 +41,19 @@
           "Evaluation.dll": {}
         }
       },
+      "bootstrap/4.2.1": {
+        "dependencies": {
+          "jQuery": "3.0.0",
+          "popper.js": "1.14.0"
+        }
+      },
+      "bootstrap.sass/4.2.1": {
+        "dependencies": {
+          "jQuery": "3.0.0",
+          "popper.js": "1.14.0"
+        }
+      },
+      "jQuery/3.0.0": {},
       "Microsoft.AspNetCore.Razor.Design/2.1.2": {},
       "Microsoft.CodeAnalysis.CSharp.Workspaces/2.8.0": {
         "dependencies": {
@@ -420,6 +435,7 @@
           "lib/net40/Owin.dll": {}
         }
       },
+      "popper.js/1.14.0": {},
       "System.Composition/1.0.31": {
         "dependencies": {
           "System.Composition.AttributedModel": "1.0.31",
@@ -3505,6 +3521,27 @@
       "serviceable": false,
       "sha512": ""
     },
+    "bootstrap/4.2.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-M6STZibpxu+oRhLVY1bVnTBx7J0SMSyF1j5pVN+QFEW4X7CnQgNhbl1iLweLFLCQh0oJlOIWgwyCbGDEWm1q/Q==",
+      "path": "bootstrap/4.2.1",
+      "hashPath": "bootstrap.4.2.1.nupkg.sha512"
+    },
+    "bootstrap.sass/4.2.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-gwrqO6xzqB2pXABaf/UTGEx18i7x5nA9neZmjINgMdowPMw1pquto2PgpN+aPLhYiGnbIy1T5wwzBVO3FuvzaA==",
+      "path": "bootstrap.sass/4.2.1",
+      "hashPath": "bootstrap.sass.4.2.1.nupkg.sha512"
+    },
+    "jQuery/3.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-FXANjZia/vux9/ObNiPwh2zNWuzcgHMKXia1OQrviuf0OKPBWB2TBIVAICgtObuzEW+XLyaBEoVuOUlMXy0kNA==",
+      "path": "jquery/3.0.0",
+      "hashPath": "jquery.3.0.0.nupkg.sha512"
+    },
     "Microsoft.AspNetCore.Razor.Design/2.1.2": {
       "type": "package",
       "serviceable": true,
@@ -3658,6 +3695,13 @@
       "sha512": "sha512-OseTFniKmyp76mEzOBwIKGBRS5eMoYNkMKaMXOpxx9jv88+b6mh1rSaw43vjBOItNhaLFG3d0a20PfHyibH5sw==",
       "path": "owin/1.0.0",
       "hashPath": "owin.1.0.0.nupkg.sha512"
+    },
+    "popper.js/1.14.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-oamtAIKoHa/s45chV0TozJhrwTRUBURUVjFl1wHw1MrCplFDxmK41CMrMDQx1Eq08n7oEzqSHEPPWCdA6Mhb1w==",
+      "path": "popper.js/1.14.0",
+      "hashPath": "popper.js.1.14.0.nupkg.sha512"
     },
     "System.Composition/1.0.31": {
       "type": "package",
