@@ -21,7 +21,7 @@ namespace Evaluation.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        
         public async Task<ActionResult> Create( Student student)
         {
             bool status = false;
