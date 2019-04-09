@@ -1,4 +1,4 @@
-﻿@model Evaluation.Models.Student
+﻿@*@model Evaluation.Models.Student
 
 @{
     ViewData["Title"] = "Registration";
@@ -20,7 +20,7 @@ else
         @Html.AntiForgeryToken()
         <div class="container">
             <div class="row">
-                <div class="col-lg-10 col-xl-9 mx-auto" >
+                <div class="col-lg-10 col-xl-9 mx-auto">
                     <div class="card card-signin flex-row my-5">
                         <div class="card-img-left d-none d-md-flex">
                         </div>
@@ -47,12 +47,14 @@ else
                                         @Html.ValidationMessageFor(model => model.confirmPassword, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                @*<div class="form-group">
                                     <select asp-for="group" asp-items="Html.GetEnumSelectList<Group>()"></select>
-                                </div>
-                                @* @Html.ActionLink("Register", "Create", "StudentsController", null, new { @class = "btn btn-lg btn-primary btn-block text-uppercase" })*@
-                                @Html.ActionLink("Create", "Create", "StudentsController")
+                                </div>*@
+                                @* @Html.ActionLink("Register", "Create", "StudentsController", null, new { @class = "btn btn-lg btn-primary btn-block text-uppercase" })
 
+                                <button class="btn btn-lg btn-primary btn-block text-uppercase">
+                                    <input type="submit" value="Create">
+                                </button>
 
                             </form>
                         </div>
@@ -78,6 +80,7 @@ else
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
 }
 
-@section Styles{ 
-    <link href="@Url.Content("~/css/login.css")" rel="stylesheet" type="text/css" /> 
+@section Styles{
+    <link href="@Url.Content("~/css/login.css")" rel="stylesheet" type="text/css" />
 }
+*@

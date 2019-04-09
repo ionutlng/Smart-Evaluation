@@ -24,8 +24,8 @@ namespace Evaluation.Models
         [Range(1,8)]
         public int Time { get; set; }
 
-        public int profesorId { get; set; }
-        public Profesor Profesor { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
+
 
         public ICollection<ExamQuestion> ExamQuestions { get; set; }
     }

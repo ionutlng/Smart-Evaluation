@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Net;
 
 namespace Evaluation
 {
@@ -20,6 +23,9 @@ namespace Evaluation
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -27,15 +33,25 @@ namespace Evaluation
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddAuthorization(options => options.AddPolicy ("Rights", policy => policy.RequireRole("Student")));
-
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            //Require authenticated users
+            services.AddMvc(config =>
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                                .RequireAuthenticatedUser()
+                                 .Build();
+            })
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            
 
             var connection = @"Server=(localdb)\mssqllocaldb;Database=EvaluationDB;Trusted_Connection=True;ConnectRetryCount=0;Connection Timeout=300";
             services.AddDbContext<Data.EvaluationDBContext>
                 (options => options.UseSqlServer(connection));
 
-
+            //Use ApplicationUser class
+            services.AddDefaultIdentity<Models.ApplicationUser>()
+                .AddEntityFrameworkStores<Data.EvaluationDBContext>()
+                .AddDefaultUI();
+            
         }
     
 
@@ -64,6 +80,8 @@ namespace Evaluation
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
+
+      
 
     }
 }

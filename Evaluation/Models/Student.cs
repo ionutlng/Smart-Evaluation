@@ -1,13 +1,12 @@
-﻿using System;
+﻿/*using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Evaluation.Models
 {
-   
-    public class Student
+
+    public class Student 
     {
         [Key] public int sId { get; set; }
 
@@ -28,14 +27,9 @@ namespace Evaluation.Models
         [NotMapped]
         public string confirmPassword { get; set; }
 
-        public Group group { get; set; }
         public Guid? activationCode {get; set; }
         public bool? emailVerified { get; set; }
-
-        
-
-        public ICollection<CourseStudent> CourseStudents { get; set; }
-    }
+ }
 
     public class StudentLogIn
     {
@@ -52,9 +46,4 @@ namespace Evaluation.Models
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
     }
-
-    public enum Group
-    {
-        A1,A2,A3,A4,B1,B2,B3,B4
-    }
-}
+}*/

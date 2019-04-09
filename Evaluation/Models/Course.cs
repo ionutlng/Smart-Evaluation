@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 
 namespace Evaluation.Models
@@ -12,10 +10,12 @@ namespace Evaluation.Models
         [Required]
         public string courseName { get; set; }
 
-        public int profesorId { get; set; }
-        public Profesor Profesor { get; set; }
+        public int AuID { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
 
-        public ICollection<CourseStudent> CourseStudents { get; set; }
+        public virtual ICollection<ApplicationUser> ApplicationUsers { get; set; }
+
+        //public ICollection<CourseStudent> CourseStudents { get; set; }
 
         public ICollection<Exam> Exams { get; set; }
     }

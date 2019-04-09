@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿/*using System.Linq;
 using System.Threading.Tasks;
 using Evaluation.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +20,7 @@ namespace Evaluation.Controllers
         // GET: Exams
         public async Task<IActionResult> Index()
         {
-            var evaluationDBContext = _context.Exam.Include(e => e.Profesor);
+            var evaluationDBContext = _context.Exam.Include(e => e.ApplicationUser);
             return View(await evaluationDBContext.ToListAsync());
         }
 
@@ -35,7 +33,7 @@ namespace Evaluation.Controllers
             }
 
             var exam = await _context.Exam
-                .Include(e => e.Profesor)
+                .Include(e => e.ApplicationUser)
                 .FirstOrDefaultAsync(m => m.eId == id);
             if (exam == null)
             {
@@ -48,7 +46,7 @@ namespace Evaluation.Controllers
         // GET: Exams/Create
         public IActionResult Create()
         {
-            ViewData["profesorId"] = new SelectList(_context.Set<Profesor>(), "pId", "Password");
+            ViewData["profesorId"] = new SelectList(_context.Set<ApplicationUser>(), "pId", "Password");
             return View();
         }
 
@@ -65,7 +63,7 @@ namespace Evaluation.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["profesorId"] = new SelectList(_context.Set<Profesor>(), "pId", "Password", exam.profesorId);
+            ViewData["profesorId"] = new SelectList(_context.Set<ApplicationUser>(), "pId", "Password", exam.ApplicationUser.Id);
             return View(exam);
         }
 
@@ -82,7 +80,7 @@ namespace Evaluation.Controllers
             {
                 return NotFound();
             }
-            ViewData["profesorId"] = new SelectList(_context.Set<Profesor>(), "pId", "Password", exam.profesorId);
+            ViewData["profesorId"] = new SelectList(_context.Set<ApplicationUser>(), "pId", "Password", exam.ApplicationUser.Id);
             return View(exam);
         }
 
@@ -118,7 +116,7 @@ namespace Evaluation.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["profesorId"] = new SelectList(_context.Set<Profesor>(), "pId", "Password", exam.profesorId);
+            ViewData["profesorId"] = new SelectList(_context.Set<ApplicationUser>(), "pId", "Password", exam.ApplicationUser.Id);
             return View(exam);
         }
 
@@ -131,7 +129,7 @@ namespace Evaluation.Controllers
             }
 
             var exam = await _context.Exam
-                .Include(e => e.Profesor)
+                .Include(e => e.ApplicationUser)
                 .FirstOrDefaultAsync(m => m.eId == id);
             if (exam == null)
             {
@@ -158,3 +156,4 @@ namespace Evaluation.Controllers
         }
     }
 }
+*/

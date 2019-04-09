@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿/*using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Evaluation.Models
 {
@@ -24,4 +22,4 @@ namespace Evaluation.Models
         public ICollection<Exam> Exams { get; set; }
         public ICollection<Question> Questions { get; set; }
     }
-}
+}*/
