@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -10,6 +8,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace Evaluation.Areas.Identity.Pages.Account
 {
@@ -20,6 +19,7 @@ namespace Evaluation.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private IServiceProvider serviceProvider;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
@@ -69,8 +69,11 @@ namespace Evaluation.Areas.Identity.Pages.Account
             {
                 var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
+               // Services.BasedOnRoles.AddUserToStudentRole(serviceProvider, Input.Email, Input.Password, roleName: "Student");
+
                 if (result.Succeeded)
                 {
+                    await _userManager.AddToRoleAsync(user, "Student");
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

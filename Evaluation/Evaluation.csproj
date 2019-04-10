@@ -5,19 +5,31 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20190409104525_Identity.cs" />
+    <Compile Remove="Migrations\20190409104525_Identity.Designer.cs" />
+    <Compile Remove="Migrations\20190409203250_IdentityRelBT.cs" />
+    <Compile Remove="Migrations\20190409203250_IdentityRelBT.Designer.cs" />
+    <Compile Remove="Migrations\20190409204908_IdentityRelBT.cs" />
+    <Compile Remove="Migrations\20190409204908_IdentityRelBT.Designer.cs" />
+    <Compile Remove="Migrations\20190410100342_IdentityUserRelationships.cs" />
+    <Compile Remove="Migrations\20190410100342_IdentityUserRelationships.Designer.cs" />
+    <Compile Remove="Migrations\20190410101419_IdentityUserRelationships.cs" />
+    <Compile Remove="Migrations\20190410101419_IdentityUserRelationships.Designer.cs" />
+    <Compile Remove="Migrations\20190410101659_RelIdentityUser.cs" />
+    <Compile Remove="Migrations\20190410101659_RelIdentityUser.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="bootstrap" Version="4.2.1" />
     <PackageReference Include="bootstrap.sass" Version="4.2.1" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.6" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.Owin" Version="4.0.0" />
-    <PackageReference Include="Microsoft.Owin.Host.SystemWeb" Version="4.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.6" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\lib\" />
-    <Folder Include="wwwroot\lib\bootstrap\" />
+    <Folder Include="Areas\Identity\Services\" />
   </ItemGroup>
 
 </Project>

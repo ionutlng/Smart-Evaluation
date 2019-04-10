@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.1",
-    "signature": "07a2648382a455678d4db87ae5faf918586fb30c"
+    "signature": "224c12bc1e35dcf7533c462a4e258656dbe352e3"
   },
   "compilationOptions": {
     "defines": [
@@ -28,8 +28,6 @@
           "Microsoft.AspNetCore.App": "2.1.1",
           "Microsoft.AspNetCore.Razor.Design": "2.1.2",
           "Microsoft.NETCore.App": "2.1.0",
-          "Microsoft.Owin": "4.0.0",
-          "Microsoft.Owin.Host.SystemWeb": "4.0.0",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "2.1.6",
           "bootstrap": "4.2.1",
           "bootstrap.sass": "4.2.1"
@@ -256,35 +254,6 @@
       },
       "Microsoft.NETCore.Platforms/2.1.0": {},
       "Microsoft.NETCore.Targets/2.1.0": {},
-      "Microsoft.Owin/4.0.0": {
-        "dependencies": {
-          "Owin": "1.0.0"
-        },
-        "runtime": {
-          "lib/net451/Microsoft.Owin.dll": {
-            "assemblyVersion": "4.0.0.0",
-            "fileVersion": "4.0.4677.103"
-          }
-        },
-        "compile": {
-          "lib/net451/Microsoft.Owin.dll": {}
-        }
-      },
-      "Microsoft.Owin.Host.SystemWeb/4.0.0": {
-        "dependencies": {
-          "Microsoft.Owin": "4.0.0",
-          "Owin": "1.0.0"
-        },
-        "runtime": {
-          "lib/net451/Microsoft.Owin.Host.SystemWeb.dll": {
-            "assemblyVersion": "4.0.0.0",
-            "fileVersion": "4.0.4677.103"
-          }
-        },
-        "compile": {
-          "lib/net451/Microsoft.Owin.Host.SystemWeb.dll": {}
-        }
-      },
       "Microsoft.VisualStudio.Web.CodeGeneration/2.1.6": {
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection": "2.1.1",
@@ -422,17 +391,6 @@
         },
         "compile": {
           "lib/netstandard1.6/NuGet.Frameworks.dll": {}
-        }
-      },
-      "Owin/1.0.0": {
-        "runtime": {
-          "lib/net40/Owin.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
-        },
-        "compile": {
-          "lib/net40/Owin.dll": {}
         }
       },
       "popper.js/1.14.0": {},
@@ -3605,20 +3563,6 @@
       "path": "microsoft.netcore.targets/2.1.0",
       "hashPath": "microsoft.netcore.targets.2.1.0.nupkg.sha512"
     },
-    "Microsoft.Owin/4.0.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-Nmvy2V2WiRHTnSs65REVaYHZrsXjXFS1MxwYqGrS6YjjajazEmQ1+dQWZiyO3dCOhnh6PhNfsGBCxbim36sjAg==",
-      "path": "microsoft.owin/4.0.0",
-      "hashPath": "microsoft.owin.4.0.0.nupkg.sha512"
-    },
-    "Microsoft.Owin.Host.SystemWeb/4.0.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-zMC+qMoTmG9J1SsJPyWJTggIFlyPg29Sx2UBtlVYP71A2tIhYBroyFO5I1YUnPGjruJPVWVsRbg7w12g/9ZQDQ==",
-      "path": "microsoft.owin.host.systemweb/4.0.0",
-      "hashPath": "microsoft.owin.host.systemweb.4.0.0.nupkg.sha512"
-    },
     "Microsoft.VisualStudio.Web.CodeGeneration/2.1.6": {
       "type": "package",
       "serviceable": true,
@@ -3688,13 +3632,6 @@
       "sha512": "sha512-/VaEPsEgj3p5YPLLxbYc6rB8gYIPf+8wCWOAlAe3l/SP0DXcefZ58uJer1ToBKIpwbPN5LkgTXtvilze5UJoYQ==",
       "path": "nuget.frameworks/4.7.0",
       "hashPath": "nuget.frameworks.4.7.0.nupkg.sha512"
-    },
-    "Owin/1.0.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-OseTFniKmyp76mEzOBwIKGBRS5eMoYNkMKaMXOpxx9jv88+b6mh1rSaw43vjBOItNhaLFG3d0a20PfHyibH5sw==",
-      "path": "owin/1.0.0",
-      "hashPath": "owin.1.0.0.nupkg.sha512"
     },
     "popper.js/1.14.0": {
       "type": "package",

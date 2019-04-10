@@ -7,10 +7,9 @@ namespace Evaluation.Services
     {
         public static void SendVerificationEmail(string email, string activationCode, string link)
         {
+
             var fromEmail = new MailAddress("smart.evaluation10@gmail.com", "smart evaluation");
-
             
-
             var toEmail = new MailAddress(email);
             var fromEmailPassword = "nota10licenta";
             var subject = "Your account is successfully created!";

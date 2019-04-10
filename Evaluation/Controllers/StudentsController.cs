@@ -1,11 +1,5 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Evaluation.Data;
+﻿using Evaluation.Data;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Evaluation.Models;
-using Microsoft.AspNetCore.Http.Extensions;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Evaluation.Controllers

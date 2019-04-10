@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -77,8 +76,18 @@ namespace Evaluation.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
+                    ApplicationUser user = await _signInManager.UserManager.FindByEmailAsync(Input.Email);
+                    if(await _signInManager.UserManager.IsInRoleAsync(user, "Profesor"))
+                    {
+                        _logger.LogInformation("User logged in.");
+                        return RedirectToAction("Index", "Profesor");
+                    }
+                    else if (await _signInManager.UserManager.IsInRoleAsync(user,"Student"))
+                    {
+                        _logger.LogInformation("User logged in.");
+                        return RedirectToAction("Index","Student");
+
+                    }
                 }
                 if (result.RequiresTwoFactor)
                 {
