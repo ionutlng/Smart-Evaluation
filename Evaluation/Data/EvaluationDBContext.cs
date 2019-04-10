@@ -19,31 +19,27 @@ namespace Evaluation.Data
         public DbSet<Exam> Exams;
         public DbSet<ExamQuestion> ExamQuestions;
         public DbSet<Feedback> Feedbacks;
-       // public DbSet<Profesor> Profesors;
         public DbSet<Question> Questions;
-        //public DbSet<Student> Students;
+        public DbSet<ApplicationUser> ApplicationUsers;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            
+
             //One Prof can have many courses
-            modelBuilder.Entity<ApplicationUser>(b =>
-            {
-                b.HasMany(e => e.Courses)
-                  .WithOne()
-                  .IsRequired()
-                   .OnDelete(DeleteBehavior.Restrict);
-            });
+            modelBuilder.Entity<Course>()
+                .HasOne(a => a.ApplicationUser)
+                .WithMany(c => c.Courses)
+                .HasForeignKey(f => f.ApplicationUserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
 
             //One prof can have many exams
-            modelBuilder.Entity<ApplicationUser>(b =>
-            {
-                b.HasMany(e => e.Exams)
-                  .WithOne()
-                  .IsRequired()
-.OnDelete(DeleteBehavior.Restrict);
-            });
+            modelBuilder.Entity<Exam>()
+               .HasOne(a => a.ApplicationUser)
+               .WithMany(e => e.Exams)
+               .HasForeignKey(f => f.ApplicationUserId)
+               .OnDelete(DeleteBehavior.Cascade);
 
 
             //One exam can have many feedbacks
@@ -54,38 +50,29 @@ namespace Evaluation.Data
                 .OnDelete(DeleteBehavior.Cascade);
 
             //One prof can have many questions created
-            modelBuilder.Entity<ApplicationUser>(b =>
-            {
-                b.HasMany(e => e.Questions)
-                  .WithOne()
-                  .IsRequired()
-                                    .OnDelete(DeleteBehavior.Restrict);
-
-            });
+            modelBuilder.Entity<Question>()
+               .HasOne(a => a.ApplicationUser)
+               .WithMany(q => q.Questions)
+               .HasForeignKey(f => f.ApplicationUserId)
+               .OnDelete(DeleteBehavior.Cascade);
 
 
             /* One student can have many courses
-             * One course can have many students
-            modelBuilder.Entity<CourseStudent>().HasKey(sc => new {sc.ApplicationUser.Id, sc.cId});
-            */
-            modelBuilder.Entity<ApplicationUser>(b =>
-            {
-                b.HasMany(e => e.Courses)
-                  .WithOne()
-                  .IsRequired()
-                  .OnDelete(DeleteBehavior.Restrict);
-            });
+             * One course can have many students */
+            modelBuilder.Entity<CourseStudent>().HasKey(t => new { t.ApplicationUserId, t.CourseId });
 
-            modelBuilder.Entity<Course>(b =>
-            {
-                b.HasMany(e => e.ApplicationUsers)
-                  .WithOne()
-                  .IsRequired()
-                  .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<CourseStudent>()
+                .HasOne(c => c.Course)
+                .WithMany(cs => cs.CourseStudents)
+                .HasForeignKey(c => c.CourseId)
+                .OnDelete(DeleteBehavior.Restrict);
 
-            });
+            modelBuilder.Entity<CourseStudent>()
+                .HasOne(c => c.ApplicationUser)
+                .WithMany(cs => cs.CourseStudents)
+                .HasForeignKey(c => c.ApplicationUserId)
+                .OnDelete(DeleteBehavior.Restrict);
 
-            
 
             /* One exam can have many questions
              * One question can appear in more exams*/

@@ -10,13 +10,12 @@ namespace Evaluation.Models
         [Required]
         public string courseName { get; set; }
 
-        public int AuID { get; set; }
-        public ApplicationUser ApplicationUser { get; set; }
+        
+        public string ApplicationUserId { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
 
-        public virtual ICollection<ApplicationUser> ApplicationUsers { get; set; }
+        public virtual ICollection<Exam> Exams { get; set; }
 
-        //public ICollection<CourseStudent> CourseStudents { get; set; }
-
-        public ICollection<Exam> Exams { get; set; }
+        public virtual ICollection<CourseStudent> CourseStudents { get; set; }
     }
 }

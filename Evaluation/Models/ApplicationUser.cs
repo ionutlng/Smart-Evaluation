@@ -11,7 +11,12 @@ namespace Evaluation.Models
         public int? Group { get; set; }
 
         public virtual ICollection<Course> Courses { get; set; }
-        public  ICollection<Exam> Exams { get; set; }
+
+        public virtual ICollection<Exam> Exams { get; set; }
+
         public virtual ICollection<Question> Questions { get; set; }
+
+        public virtual ICollection<CourseStudent> CourseStudents { get; set; }
+
     }
 }

@@ -19,10 +19,10 @@ namespace Evaluation.Models
         [Range(1,5)]
         public int examDifficulty { get; set;}
 
-        public  ApplicationUser ApplicationUser { get; set; }
+        public string ApplicationUserId { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
 
-
-        public ICollection<ExamQuestion> ExamQuestions { get; set; }
-        public ICollection<Feedback> Feedbacks { get; set; }
+        public virtual ICollection<ExamQuestion> ExamQuestions { get; set; }
+        public virtual ICollection<Feedback> Feedbacks { get; set; }
     }
 }
