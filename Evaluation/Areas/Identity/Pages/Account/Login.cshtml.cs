@@ -80,12 +80,12 @@ namespace Evaluation.Areas.Identity.Pages.Account
                     if(await _signInManager.UserManager.IsInRoleAsync(user, "Profesor"))
                     {
                         _logger.LogInformation("User logged in.");
-                        return RedirectToAction("Index", "Profesor");
+                        return Redirect("~/Profesor/Index");
                     }
                     else if (await _signInManager.UserManager.IsInRoleAsync(user,"Student"))
                     {
                         _logger.LogInformation("User logged in.");
-                        return RedirectToAction("Index","Student");
+                        return Redirect("~/Students/LogIn");
 
                     }
                 }

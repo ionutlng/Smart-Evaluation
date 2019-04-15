@@ -1,4 +1,4 @@
-﻿@model Evaluation.Models.Exam
+﻿@model Evaluation.Models.Question
 
 @{
     ViewData["Title"] = "Create";
@@ -6,26 +6,31 @@
 
 <h2>Create</h2>
 
-<h4>Exam</h4>
+<h4>Question</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="nrQuestions" class="control-label"></label>
-                <input asp-for="nrQuestions" class="form-control" />
-                <span asp-validation-for="nrQuestions" class="text-danger"></span>
+                <label asp-for="Text" class="control-label"></label>
+                <input asp-for="Text" class="form-control" />
+                <span asp-validation-for="Text" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="examTime" class="control-label"></label>
-                <input asp-for="examTime" class="form-control" />
-                <span asp-validation-for="examTime" class="text-danger"></span>
+                <label asp-for="Answer" class="control-label"></label>
+                <input asp-for="Answer" class="form-control" />
+                <span asp-validation-for="Answer" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="examDifficulty" class="control-label"></label>
-                <input asp-for="examDifficulty" class="form-control" />
-                <span asp-validation-for="examDifficulty" class="text-danger"></span>
+                <label asp-for="Difficulty" class="control-label"></label>
+                <input asp-for="Difficulty" class="form-control" />
+                <span asp-validation-for="Difficulty" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Time" class="control-label"></label>
+                <input asp-for="Time" class="form-control" />
+                <span asp-validation-for="Time" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ApplicationUserId" class="control-label"></label>

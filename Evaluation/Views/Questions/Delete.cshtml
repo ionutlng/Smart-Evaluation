@@ -1,4 +1,4 @@
-﻿@model Evaluation.Models.Exam
+﻿@model Evaluation.Models.Question
 
 @{
     ViewData["Title"] = "Delete";
@@ -8,26 +8,32 @@
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>Exam</h4>
+    <h4>Question</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.nrQuestions)
+            @Html.DisplayNameFor(model => model.Text)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.nrQuestions)
+            @Html.DisplayFor(model => model.Text)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.examTime)
+            @Html.DisplayNameFor(model => model.Answer)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.examTime)
+            @Html.DisplayFor(model => model.Answer)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.examDifficulty)
+            @Html.DisplayNameFor(model => model.Difficulty)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.examDifficulty)
+            @Html.DisplayFor(model => model.Difficulty)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Time)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Time)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.ApplicationUser)
@@ -38,7 +44,7 @@
     </dl>
     
     <form asp-action="Delete">
-        <input type="hidden" asp-for="eId" />
+        <input type="hidden" asp-for="qId" />
         <input type="submit" value="Delete" class="btn btn-default" /> |
         <a asp-action="Index">Back to List</a>
     </form>

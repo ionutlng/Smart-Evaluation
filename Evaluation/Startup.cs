@@ -86,8 +86,10 @@ namespace Evaluation
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{area:exists}/{controller=Identity/Account}/{action=Login}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+
 
             Services.BasedOnRoles.CreateRole(serviceProvider, "Student");
             Services.BasedOnRoles.CreateRole(serviceProvider, "Profesor");

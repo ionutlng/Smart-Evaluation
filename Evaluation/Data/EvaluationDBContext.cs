@@ -94,6 +94,8 @@ namespace Evaluation.Data
 
         public DbSet<Evaluation.Models.Exam> Exam { get; set; }
 
+        public DbSet<Evaluation.Models.Question> Question { get; set; }
+
        // public DbSet<Evaluation.Models.Student> Student { get; set; }
     }
         

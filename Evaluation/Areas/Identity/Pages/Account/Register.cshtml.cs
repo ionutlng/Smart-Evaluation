@@ -73,7 +73,7 @@ namespace Evaluation.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(user, "Student");
+                    await _userManager.AddToRoleAsync(user, "Profesor");
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

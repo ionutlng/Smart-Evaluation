@@ -10,23 +10,23 @@ using Evaluation.Models;
 
 namespace Evaluation.Controllers
 {
-    public class ExamsController : Controller
+    public class QuestionsController : Controller
     {
         private readonly EvaluationDBContext _context;
 
-        public ExamsController(EvaluationDBContext context)
+        public QuestionsController(EvaluationDBContext context)
         {
             _context = context;
         }
 
-        // GET: Exams
+        // GET: Questions
         public async Task<IActionResult> Index()
         {
-            var evaluationDBContext = _context.Exam.Include(e => e.ApplicationUser);
+            var evaluationDBContext = _context.Question.Include(q => q.ApplicationUser);
             return View(await evaluationDBContext.ToListAsync());
         }
 
-        // GET: Exams/Details/5
+        // GET: Questions/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,42 +34,42 @@ namespace Evaluation.Controllers
                 return NotFound();
             }
 
-            var exam = await _context.Exam
-                .Include(e => e.ApplicationUser)
-                .FirstOrDefaultAsync(m => m.eId == id);
-            if (exam == null)
+            var question = await _context.Question
+                .Include(q => q.ApplicationUser)
+                .FirstOrDefaultAsync(m => m.qId == id);
+            if (question == null)
             {
                 return NotFound();
             }
 
-            return View(exam);
+            return View(question);
         }
 
-        // GET: Exams/Create
+        // GET: Questions/Create
         public IActionResult Create()
         {
             ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
 
-        // POST: Exams/Create
+        // POST: Questions/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("eId,nrQuestions,examTime,examDifficulty,ApplicationUserId")] Exam exam)
+        public async Task<IActionResult> Create([Bind("qId,Text,Answer,Difficulty,Time,ApplicationUserId")] Question question)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(exam);
+                _context.Add(question);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id", exam.ApplicationUserId);
-            return View(exam);
+            ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id", question.ApplicationUserId);
+            return View(question);
         }
 
-        // GET: Exams/Edit/5
+        // GET: Questions/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -77,23 +77,23 @@ namespace Evaluation.Controllers
                 return NotFound();
             }
 
-            var exam = await _context.Exam.FindAsync(id);
-            if (exam == null)
+            var question = await _context.Question.FindAsync(id);
+            if (question == null)
             {
                 return NotFound();
             }
-            ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id", exam.ApplicationUserId);
-            return View(exam);
+            ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id", question.ApplicationUserId);
+            return View(question);
         }
 
-        // POST: Exams/Edit/5
+        // POST: Questions/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("eId,nrQuestions,examTime,examDifficulty,ApplicationUserId")] Exam exam)
+        public async Task<IActionResult> Edit(int id, [Bind("qId,Text,Answer,Difficulty,Time,ApplicationUserId")] Question question)
         {
-            if (id != exam.eId)
+            if (id != question.qId)
             {
                 return NotFound();
             }
@@ -102,12 +102,12 @@ namespace Evaluation.Controllers
             {
                 try
                 {
-                    _context.Update(exam);
+                    _context.Update(question);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ExamExists(exam.eId))
+                    if (!QuestionExists(question.qId))
                     {
                         return NotFound();
                     }
@@ -118,11 +118,11 @@ namespace Evaluation.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id", exam.ApplicationUserId);
-            return View(exam);
+            ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id", question.ApplicationUserId);
+            return View(question);
         }
 
-        // GET: Exams/Delete/5
+        // GET: Questions/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -130,31 +130,31 @@ namespace Evaluation.Controllers
                 return NotFound();
             }
 
-            var exam = await _context.Exam
-                .Include(e => e.ApplicationUser)
-                .FirstOrDefaultAsync(m => m.eId == id);
-            if (exam == null)
+            var question = await _context.Question
+                .Include(q => q.ApplicationUser)
+                .FirstOrDefaultAsync(m => m.qId == id);
+            if (question == null)
             {
                 return NotFound();
             }
 
-            return View(exam);
+            return View(question);
         }
 
-        // POST: Exams/Delete/5
+        // POST: Questions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var exam = await _context.Exam.FindAsync(id);
-            _context.Exam.Remove(exam);
+            var question = await _context.Question.FindAsync(id);
+            _context.Question.Remove(question);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ExamExists(int id)
+        private bool QuestionExists(int id)
         {
-            return _context.Exam.Any(e => e.eId == id);
+            return _context.Question.Any(e => e.qId == id);
         }
     }
 }
