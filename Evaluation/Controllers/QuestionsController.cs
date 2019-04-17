@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Evaluation.Data;
 using Evaluation.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Evaluation.Controllers
 {
@@ -14,21 +14,30 @@ namespace Evaluation.Controllers
     {
         private readonly EvaluationDBContext _context;
 
+        
+
         public QuestionsController(EvaluationDBContext context)
         {
             _context = context;
         }
 
         // GET: Questions
+        [Authorize(Roles = "Profesor")]
         public async Task<IActionResult> Index()
         {
-            var evaluationDBContext = _context.Question.Include(q => q.ApplicationUser);
-            return View(await evaluationDBContext.ToListAsync());
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var evaluationDBContext = _context.Question.Include(q => q.ApplicationUser)
+                                                .Where(m => m.ApplicationUserId == userId).ToListAsync();
+
+            return View(await evaluationDBContext);
         }
 
         // GET: Questions/Details/5
+        [Authorize(Roles = "Profesor")]
         public async Task<IActionResult> Details(int? id)
         {
+           var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             if (id == null)
             {
                 return NotFound();
@@ -36,7 +45,7 @@ namespace Evaluation.Controllers
 
             var question = await _context.Question
                 .Include(q => q.ApplicationUser)
-                .FirstOrDefaultAsync(m => m.qId == id);
+                .FirstOrDefaultAsync(m => m.qId == id && m.ApplicationUserId == userId );
             if (question == null)
             {
                 return NotFound();
@@ -46,6 +55,7 @@ namespace Evaluation.Controllers
         }
 
         // GET: Questions/Create
+        [Authorize(Roles = "Profesor")]
         public IActionResult Create()
         {
             ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id");
@@ -57,10 +67,12 @@ namespace Evaluation.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("qId,Text,Answer,Difficulty,Time,ApplicationUserId")] Question question)
+        [Authorize(Roles ="Profesor")]
+        public async Task<IActionResult> Create([Bind("qId,Text,Answer,Difficulty,Time")] Question question)
         {
             if (ModelState.IsValid)
             {
+                question.ApplicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 _context.Add(question);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -70,6 +82,7 @@ namespace Evaluation.Controllers
         }
 
         // GET: Questions/Edit/5
+        [Authorize(Roles = "Profesor")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -91,6 +104,7 @@ namespace Evaluation.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Profesor")]
         public async Task<IActionResult> Edit(int id, [Bind("qId,Text,Answer,Difficulty,Time,ApplicationUserId")] Question question)
         {
             if (id != question.qId)
@@ -123,6 +137,7 @@ namespace Evaluation.Controllers
         }
 
         // GET: Questions/Delete/5
+        [Authorize(Roles = "Profesor")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -144,6 +159,7 @@ namespace Evaluation.Controllers
         // POST: Questions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Profesor")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var question = await _context.Question.FindAsync(id);

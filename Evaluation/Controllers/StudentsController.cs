@@ -14,47 +14,52 @@ namespace Evaluation.Controllers
             _context = context;
         }
 
-        [HttpPost]
-        
-       /* public async Task<ActionResult> Create( Student student)
+        [Authorize(Roles = "Student")]
+        [HttpGet]
+        public ActionResult Login()
         {
-            bool status = false;
-            string message = "";
+            return View();
+        }
 
-            if (ModelState.IsValid)
-            {
-                var isExist = emailExist(student.studUsername);
-                if (isExist)
-                {
-                    ModelState.AddModelError("EmailExist", "Email already exist");
-                    return View(student);
-                }
+        /* public async Task<ActionResult> Create( Student student)
+         {
+             bool status = false;
+             string message = "";
 
-                //student.activationCode = System.Guid.NewGuid();
+             if (ModelState.IsValid)
+             {
+                 var isExist = emailExist(student.studUsername);
+                 if (isExist)
+                 {
+                     ModelState.AddModelError("EmailExist", "Email already exist");
+                     return View(student);
+                 }
 
-                student.studPassword = Services.Crypto.Hash(student.studPassword);
-                student.confirmPassword = Services.Crypto.Hash(student.confirmPassword);
+                 //student.activationCode = System.Guid.NewGuid();
 
-               // student.emailVerified = false;
+                 student.studPassword = Services.Crypto.Hash(student.studPassword);
+                 student.confirmPassword = Services.Crypto.Hash(student.confirmPassword);
 
-                string link =  HttpContext.Request.GetEncodedUrl().ToString().Replace(HttpContext.Request.Path,"/Students/Verify/");
+                // student.emailVerified = false;
 
-                 _context.Add(student);
-                await _context.SaveChangesAsync();
+                 string link =  HttpContext.Request.GetEncodedUrl().ToString().Replace(HttpContext.Request.Path,"/Students/Verify/");
 
-               // Services.SendEmail.SendVerificationEmail(student.studUsername, student.activationCode.ToString(), link);
-                message = "Registration succes " + student.studUsername;
-                    status = true;
-                }
-            else
-            {
-                message = "Invalid request";
-            }
+                  _context.Add(student);
+                 await _context.SaveChangesAsync();
 
-            ViewBag.Message = message;
-            ViewBag.Status = status;
-            return View(student);
-        }*/
+                // Services.SendEmail.SendVerificationEmail(student.studUsername, student.activationCode.ToString(), link);
+                 message = "Registration succes " + student.studUsername;
+                     status = true;
+                 }
+             else
+             {
+                 message = "Invalid request";
+             }
+
+             ViewBag.Message = message;
+             ViewBag.Status = status;
+             return View(student);
+         }*/
 
         [HttpGet]
        /* public ActionResult Verify(string id)
@@ -106,11 +111,7 @@ namespace Evaluation.Controllers
             
         }*/
 
-        [HttpGet]
-        public ActionResult Login()
-        {
-            return View();
-        }
+      
 
         [HttpPost]
         [AllowAnonymous]

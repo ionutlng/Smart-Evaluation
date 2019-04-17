@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Evaluation.Data;
 using Evaluation.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Evaluation.Controllers
 {
@@ -20,13 +22,18 @@ namespace Evaluation.Controllers
         }
 
         // GET: Exams
+        [Authorize(Roles = "Profesor")]
         public async Task<IActionResult> Index()
         {
-            var evaluationDBContext = _context.Exam.Include(e => e.ApplicationUser);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var evaluationDBContext = _context.Exam.Include(e => e.ApplicationUser)
+                                               .Where(m => m.ApplicationUserId == userId);
             return View(await evaluationDBContext.ToListAsync());
         }
 
         // GET: Exams/Details/5
+        [Authorize(Roles = "Profesor")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -46,6 +53,7 @@ namespace Evaluation.Controllers
         }
 
         // GET: Exams/Create
+        [Authorize(Roles = "Profesor")]
         public IActionResult Create()
         {
             ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id");
@@ -57,10 +65,12 @@ namespace Evaluation.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Profesor")]
         public async Task<IActionResult> Create([Bind("eId,nrQuestions,examTime,examDifficulty,ApplicationUserId")] Exam exam)
         {
             if (ModelState.IsValid)
             {
+                exam.ApplicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 _context.Add(exam);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -70,6 +80,7 @@ namespace Evaluation.Controllers
         }
 
         // GET: Exams/Edit/5
+        [Authorize(Roles = "Profesor")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -91,6 +102,7 @@ namespace Evaluation.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Profesor")]
         public async Task<IActionResult> Edit(int id, [Bind("eId,nrQuestions,examTime,examDifficulty,ApplicationUserId")] Exam exam)
         {
             if (id != exam.eId)
@@ -123,6 +135,7 @@ namespace Evaluation.Controllers
         }
 
         // GET: Exams/Delete/5
+        [Authorize(Roles = "Profesor")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -144,6 +157,7 @@ namespace Evaluation.Controllers
         // POST: Exams/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Profesor")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var exam = await _context.Exam.FindAsync(id);
