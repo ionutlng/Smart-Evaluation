@@ -1,4 +1,4 @@
-﻿namespace Evaluation.Models
+﻿/*namespace Evaluation.Models
 {
     public class CourseStudent
     {
@@ -11,4 +11,4 @@
 
     }
 
-}
+}*/

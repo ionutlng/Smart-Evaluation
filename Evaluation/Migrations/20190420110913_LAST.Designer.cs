@@ -4,14 +4,16 @@ using Evaluation.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Evaluation.Migrations
 {
     [DbContext(typeof(EvaluationDBContext))]
-    partial class EvaluationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20190420110913_LAST")]
+    partial class LAST
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

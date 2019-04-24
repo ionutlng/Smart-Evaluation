@@ -25,11 +25,12 @@ namespace Evaluation.Controllers
         [Authorize(Roles = "Profesor")]
         public async Task<IActionResult> Index()
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            var evaluationDBContext = _context.Exam.Include(e => e.ApplicationUser)
-                                               .Where(m => m.ApplicationUserId == userId);
-            return View(await evaluationDBContext.ToListAsync());
+            var loggedUser = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var result = from c in _context.Course
+                         join q in _context.Exam on c.cId equals q.CourseID
+                         where c.ApplicationUserId == loggedUser
+                         select q;
+           return View(await result.ToListAsync());
         }
 
         // GET: Exams/Details/5
@@ -43,6 +44,7 @@ namespace Evaluation.Controllers
 
             var exam = await _context.Exam
                 .Include(e => e.ApplicationUser)
+                .Include(e => e.Course)
                 .FirstOrDefaultAsync(m => m.eId == id);
             if (exam == null)
             {
@@ -57,6 +59,7 @@ namespace Evaluation.Controllers
         public IActionResult Create()
         {
             ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id");
+            ViewData["CourseID"] = new SelectList(_context.Course, "cId", "courseName");
             return View();
         }
 
@@ -66,16 +69,24 @@ namespace Evaluation.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Profesor")]
-        public async Task<IActionResult> Create([Bind("eId,nrQuestions,examTime,examDifficulty,ApplicationUserId")] Exam exam)
+        public async Task<IActionResult> Create([Bind("eId,nrQuestions,examTime,examDifficulty,Group,ApplicationUserId,CourseID")] Exam exam)
         {
             if (ModelState.IsValid)
             {
-                exam.ApplicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 _context.Add(exam);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(SendExam));
             }
+
+            var loggedUser = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var examList = from c in _context.Course
+                 join q in _context.Exams on c.cId equals q.eId
+                 where c.ApplicationUserId == loggedUser
+                 select c.courseName;
+
             ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id", exam.ApplicationUserId);
+            ViewData["CourseID"] = new SelectList(_context.Course, "cId", "courseName", examList);
             return View(exam);
         }
 
@@ -93,7 +104,10 @@ namespace Evaluation.Controllers
             {
                 return NotFound();
             }
+            var loggedUser = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id", exam.ApplicationUserId);
+            ViewData["CourseID"] = new SelectList(_context.Course, "cId", "courseName", exam.CourseID);
             return View(exam);
         }
 
@@ -101,9 +115,9 @@ namespace Evaluation.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         [Authorize(Roles = "Profesor")]
-        public async Task<IActionResult> Edit(int id, [Bind("eId,nrQuestions,examTime,examDifficulty,ApplicationUserId")] Exam exam)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("eId,nrQuestions,examTime,examDifficulty,Group,ApplicationUserId,CourseID")] Exam exam)
         {
             if (id != exam.eId)
             {
@@ -130,7 +144,9 @@ namespace Evaluation.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id", exam.ApplicationUserId);
+            ViewData["CourseID"] = new SelectList(_context.Course, "cId", "courseName", exam.CourseID);
             return View(exam);
         }
 
@@ -145,6 +161,7 @@ namespace Evaluation.Controllers
 
             var exam = await _context.Exam
                 .Include(e => e.ApplicationUser)
+                .Include(e => e.Course)
                 .FirstOrDefaultAsync(m => m.eId == id);
             if (exam == null)
             {
@@ -156,8 +173,8 @@ namespace Evaluation.Controllers
 
         // POST: Exams/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         [Authorize(Roles = "Profesor")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var exam = await _context.Exam.FindAsync(id);
@@ -165,6 +182,13 @@ namespace Evaluation.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        [Authorize(Roles = "Profesor")]
+        public IActionResult SendExam(ExamQuestion examQuestion)
+        {
+            return View(examQuestion);
+        }
+
 
         private bool ExamExists(int id)
         {

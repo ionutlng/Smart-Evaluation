@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -14,8 +16,6 @@ namespace Evaluation.Controllers
     {
         private readonly EvaluationDBContext _context;
 
-        
-
         public QuestionsController(EvaluationDBContext context)
         {
             _context = context;
@@ -25,27 +25,28 @@ namespace Evaluation.Controllers
         [Authorize(Roles = "Profesor")]
         public async Task<IActionResult> Index()
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var evaluationDBContext = _context.Question.Include(q => q.ApplicationUser)
-                                                .Where(m => m.ApplicationUserId == userId).ToListAsync();
+            var loggedUser = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            return View(await evaluationDBContext);
+            var result = from c in _context.Course
+                         join q in _context.Question on c.cId equals q.CourseId
+                         where c.ApplicationUserId == loggedUser
+                         select q;
+
+            return View(await result.ToListAsync());
         }
 
         // GET: Questions/Details/5
         [Authorize(Roles = "Profesor")]
         public async Task<IActionResult> Details(int? id)
         {
-           var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
             if (id == null)
             {
                 return NotFound();
             }
 
             var question = await _context.Question
-                .Include(q => q.ApplicationUser)
-                .FirstOrDefaultAsync(m => m.qId == id && m.ApplicationUserId == userId );
+                .Include(q => q.Course)
+                .FirstOrDefaultAsync(m => m.qId == id);
             if (question == null)
             {
                 return NotFound();
@@ -58,7 +59,8 @@ namespace Evaluation.Controllers
         [Authorize(Roles = "Profesor")]
         public IActionResult Create()
         {
-            ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id");
+    
+            ViewData["CourseId"] = new SelectList(_context.Set<Course>(), "cId", "courseName");
             return View();
         }
 
@@ -67,17 +69,24 @@ namespace Evaluation.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles ="Profesor")]
-        public async Task<IActionResult> Create([Bind("qId,Text,Answer,Difficulty,Time")] Question question)
+        [Authorize(Roles = "Profesor")]
+        public async Task<IActionResult> Create([Bind("qId,Text,Answer,Difficulty,Time,CourseId")] Question question)
         {
+            
             if (ModelState.IsValid)
             {
-                question.ApplicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 _context.Add(question);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id", question.ApplicationUserId);
+            var loggedUser = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var coursesList = from c in _context.Course
+                              join q in _context.Question on c.cId equals q.CourseId
+                              where c.ApplicationUserId == loggedUser
+                              select c.courseName;
+
+            ViewData["CourseId"] = new SelectList(_context.Set<Course>(), "cId", "courseName", coursesList.FirstOrDefault());
             return View(question);
         }
 
@@ -95,7 +104,7 @@ namespace Evaluation.Controllers
             {
                 return NotFound();
             }
-            ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id", question.ApplicationUserId);
+            ViewData["CourseId"] = new SelectList(_context.Set<Course>(), "cId", "courseName", question.CourseId);
             return View(question);
         }
 
@@ -105,7 +114,7 @@ namespace Evaluation.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Profesor")]
-        public async Task<IActionResult> Edit(int id, [Bind("qId,Text,Answer,Difficulty,Time,ApplicationUserId")] Question question)
+        public async Task<IActionResult> Edit(int id, [Bind("qId,Text,Answer,Difficulty,Time,CourseId")] Question question)
         {
             if (id != question.qId)
             {
@@ -132,7 +141,7 @@ namespace Evaluation.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id", question.ApplicationUserId);
+            ViewData["CourseId"] = new SelectList(_context.Set<Course>(), "cId", "courseName", question.CourseId);
             return View(question);
         }
 
@@ -146,7 +155,7 @@ namespace Evaluation.Controllers
             }
 
             var question = await _context.Question
-                .Include(q => q.ApplicationUser)
+                .Include(q => q.Course)
                 .FirstOrDefaultAsync(m => m.qId == id);
             if (question == null)
             {
@@ -158,8 +167,8 @@ namespace Evaluation.Controllers
 
         // POST: Questions/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         [Authorize(Roles = "Profesor")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var question = await _context.Question.FindAsync(id);

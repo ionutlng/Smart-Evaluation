@@ -16,6 +16,6 @@ namespace Evaluation.Models
 
         public virtual ICollection<Exam> Exams { get; set; }
 
-        public virtual ICollection<CourseStudent> CourseStudents { get; set; }
+        public virtual ICollection<Question> Questions { get; set; }
     }
 }

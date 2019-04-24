@@ -17,16 +17,18 @@ namespace Evaluation.Models
         public string Answer { get; set; }
 
         [Required]
-        [Range(1,10)]
-        public int Difficulty { get; set;}
+        [Range(1, 10)]
+        public int Difficulty { get; set; }
 
         [Required]
-        [Range(1,8)]
+        [Range(1, 8)]
         public int Time { get; set; }
 
-        public string ApplicationUserId { get; set; }
-        public virtual ApplicationUser ApplicationUser { get; set; }
+        //public string ApplicationUserId { get; set; }
+       // public virtual ApplicationUser ApplicationUser { get; set; }
 
+        public int CourseId{get;set;}
+        public virtual Course Course { get; set; }
 
         public ICollection<ExamQuestion> ExamQuestions { get; set; }
     }

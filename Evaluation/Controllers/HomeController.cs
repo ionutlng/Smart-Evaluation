@@ -8,5 +8,10 @@ namespace Evaluation.Controllers
         {
             return Redirect("~/Identity/Account/Login");
         }
+
+        public IActionResult Register()
+        {
+            return Redirect("~/Identity/Account/Register");
+        }
     }
 }

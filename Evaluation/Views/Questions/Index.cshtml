@@ -25,7 +25,7 @@
                 @Html.DisplayNameFor(model => model.Time)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ApplicationUser.UserName)
+                @Html.DisplayNameFor(model => model.Course)
             </th>
             <th></th>
         </tr>
@@ -46,7 +46,7 @@
                 @Html.DisplayFor(modelItem => item.Time)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ApplicationUser.Email)
+                @Html.DisplayFor(modelItem => item.Course.courseName)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.qId">Edit</a> |
