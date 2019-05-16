@@ -9,6 +9,7 @@ using Evaluation.Data;
 using Evaluation.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Evaluation.ViewModels;
 
 namespace Evaluation.Controllers
 {
@@ -23,15 +24,29 @@ namespace Evaluation.Controllers
 
         // GET: Exams
         [Authorize(Roles = "Profesor")]
-        public async Task<IActionResult> Index()
+        public IActionResult Index(ExamCourse examCourse)
         {
-            var loggedUser = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var result = from c in _context.Course
-                         join q in _context.Exam on c.cId equals q.CourseID
-                         where c.ApplicationUserId == loggedUser
-                         select q;
-           return View(await result.ToListAsync());
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var query = _context.Exam.Where(m=> m.ApplicationUserId == userId)
+                .Select(x => new ExamCourse
+                {
+                    examDate = x.examDate,
+                    examDifficulty = x.examDifficulty,
+                    Group = x.Group,
+                    courseName = x.Course.courseName,
+                    eId = x.eId
+                });
+
+            /*
+
+             var evaluationDBContext = _context.Exam.Include(e => e.ApplicationUser)
+                                                .Where(m => m.ApplicationUserId == userId).ToList();*/
+
+            return View(query.ToList());
         }
+
 
         // GET: Exams/Details/5
         [Authorize(Roles = "Profesor")]
@@ -69,16 +84,19 @@ namespace Evaluation.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Profesor")]
-        public async Task<IActionResult> Create([Bind("eId,nrQuestions,examTime,examDifficulty,Group,ApplicationUserId,CourseID")] Exam exam)
+        public async Task<IActionResult> Create([Bind("eId,nrQuestions,examTime,examDifficulty,Group,ApplicationUserId,CourseID,examDate")] Exam exam)
         {
+            var loggedUser = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (ModelState.IsValid)
             {
+                exam.ApplicationUserId = loggedUser;
+                exam.examDate = DateTime.Now;
                 _context.Add(exam);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(SendExam));
             }
 
-            var loggedUser = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            
 
             var examList = from c in _context.Course
                  join q in _context.Exams on c.cId equals q.eId

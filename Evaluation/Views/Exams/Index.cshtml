@@ -1,59 +1,54 @@
-﻿@model IEnumerable<Evaluation.Models.Exam>
+﻿@model List<Evaluation.ViewModels.ExamCourse  >
 
-@{
-    ViewData["Title"] = "Index";
-}
 
-<h2>Index</h2>
+<div class="starrating risingstar d-flex justify-content-center flex-row-reverse"></div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.nrQuestions)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.examTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.examDifficulty)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Group)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Course)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.nrQuestions)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.examTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.examDifficulty)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Group)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Course.courseName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.eId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.eId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.eId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    <table class="table table-hover table-sm table-bordered">
+        <thead class="thead-light">
+            <tr  class="text-center">
+                <th>  Date           </th>
+                <th>  Course         </th>
+                <th>  Difficulty     </th>
+                <th>  Group          </th>
+                <th>
+
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr  class="text-center">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.examDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.courseName)
+                    </td>
+                    <td>
+                        @for (var i = 0; i < item.examDifficulty; i++)
+                        {
+                            <i class="text-warning fa fa-star"></i>
+                        }
+                        @for (var i = item.examDifficulty + 1; i < 6; i++)
+                        {
+                            <i class="text-warning far fa-star"></i>
+                        }
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Group)
+                    </td>
+                    <td>
+                        <div class="btn-group" role="group" aria-label="Group">
+                            <a asp-action="Details" asp-route-id="@item.eId" class="btn btn-primary btn-sm"><i class="fas fa-info"></i>  </a>
+                            <a asp-action="Delete" asp-route-id="@item.eId" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>

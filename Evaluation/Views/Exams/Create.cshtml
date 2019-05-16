@@ -3,50 +3,54 @@
 @{
     ViewData["Title"] = "Create";
 }
-
-<h2>Create</h2>
-
-<h4>Exam</h4>
+<br /><br>
+<h2 class="text-center"> Create exam   </h2>
+<a asp-action="Index"><i class="fas fa-arrow-alt-circle-left fa-2x"></i></a>
 <hr />
-<div class="row">
-    <div class="col-md-4">
+<div class="row ">
+    <div class="col-md-4 mx-auto ">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="nrQuestions" class="control-label"></label>
-                <input asp-for="nrQuestions" class="form-control" />
+                <h6 class="text-center">Number of questions</h6>
+                <input asp-for="nrQuestions" class="form-control text-center" />
                 <span asp-validation-for="nrQuestions" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="examTime" class="control-label"></label>
-                <input asp-for="examTime" class="form-control" />
+                <h6 class="text-center">Exam time</h6>
+                <input asp-for="examTime" class="form-control text-center" />
                 <span asp-validation-for="examTime" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="examDifficulty" class="control-label"></label>
-                <input asp-for="examDifficulty" class="form-control" />
+                <h6 class="text-center">Exam difficulty</h6>
+                <input asp-for="examDifficulty" class="form-control text-center" />
                 <span asp-validation-for="examDifficulty" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Group" class="control-label"></label>
-                <input asp-for="Group" class="form-control" />
+                <h6 class="text-center">Group</h6>
+                <input asp-for="Group" class="form-control text-center" />
                 <span asp-validation-for="Group" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CourseID" class="control-label"></label>
-                <select asp-for="CourseID" class ="form-control" asp-items="ViewBag.CourseID"></select>
+                <h6 class="text-center">Course</h6>
+                <select asp-for="CourseID" class="form-control" asp-items="ViewBag.CourseID"></select>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
+            <br />
+            <div class="form-group text-center">
+                <input type="submit" value="Create" class="btn btn-primary center-block" />
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+@section Styles{
+    <link href="@Url.Content("~/css/forms.css")" rel="stylesheet" type="text/css" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+}
+

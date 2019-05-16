@@ -1,4 +1,5 @@
 ﻿using Evaluation.Models;
+using Evaluation.ViewModels;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,6 +21,7 @@ namespace Evaluation.Data
         public DbSet<Feedback> Feedbacks;
         public DbSet<Question> Questions;
         public DbSet<ApplicationUser> ApplicationUsers;
+        public DbQuery<ExamCourse> ExamCourses;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

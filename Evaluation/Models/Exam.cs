@@ -19,6 +19,10 @@ namespace Evaluation.Models
         [Range(1,5)]
         public int examDifficulty { get; set;}
 
+        [DataType(DataType.Date)]
+        public System.DateTime examDate { get; set; }
+
+
         [Range(1, 10,
         ErrorMessage = "Value for {0} must be between {1} and {2}.")]
         public int? Group { get; set; }

@@ -1,23 +1,84 @@
-﻿<h2>NE-AM LOGAT PROFESOR</h2>
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<br />
+<h1 class="text-center"> Dashboard    </h1>
 
 
-<h6> to do</h6>
+<div class="container h-100">
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="our-team-main">
 
-<p>
-    
-    @Html.ActionLink("-> Manage my questions(add, edit, delete)", "Index","Questions");
-</p>
-<p>
-    @Html.ActionLink( "   -> Manage my exams", "Index", "Exams");
-    </p>
-<p>
-            -create am exam
-            -edit create exam
-            -send exam link to students
-            -view exam feedbacks
-</p>
+                <div class="team-front">
+                    <img src="https://placehold.it/110x110/db3758/fff?text=E" class="img-fluid" />
+                    <h3 style="color : #db3758 ">EXAM</h3>
+                    <p>Manage my exams</p>
+                </div>
 
-<p>
-    -to add more
-</p>
+                <div class="team-back">
+                    <span>
+                        <br /><br />
+                        <p>
+                            @Html.ActionLink("CREATE", "Create", "Exams");
+                        </p>
+                        <p> 
+                            @Html.ActionLink("MY EXAMS", "Index", "Exams");
+                        </p>
+                    </span>
+                </div>
 
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="our-team-main">
+
+                <div class="team-front">
+                    <img src="https://placehold.it/110x110/000000/fff?text=Q" class="img-fluid" />
+                    <h3 style="color: #000000">QUESTION</h3>
+                    <p>Manage my questions</p>
+                </div>
+
+                <div class="team-back">
+                    <span>
+                        <br /><br />
+                        <p>
+                            @Html.ActionLink("CREATE", "Create", "Questions");
+                        </p>
+                        <p>
+                            @Html.ActionLink("MY QUESTIONS", "Index", "Questions");
+                        </p>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="our-team-main">
+
+                <div class="team-front">
+                    <img src="https://placehold.it/110x110/87ceeb/fff?text=tbd" class="img-fluid" />
+                    <h3>EXTRA</h3>
+                    <p>tO DO</p>
+                </div>
+
+                <div class="team-back">
+                    <span>
+                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis
+                        natoque penatibus et magnis dis parturient montes,
+                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis
+                        natoque.
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Styles{
+    <link href="@Url.Content("~/css/dashboard.css")" rel="stylesheet" type="text/css" />
+}
