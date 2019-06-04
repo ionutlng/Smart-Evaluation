@@ -1,0 +1,89 @@
+﻿@model List<Evaluation.ViewModels.QuestionCourse>
+
+@{
+    ViewData["Title"] = "My questions";
+}
+<br />
+
+<p>
+    <a asp-controller="Profesor" asp-action="Index"><i class="fas fa-arrow-alt-circle-left fa-2x"></i></a>
+    <a asp-action="Create" class="btn btn-primary btn-sm float-right">Create New</a>
+</p>
+<table class="table table-hover table-sm table-bordered">
+    <thead class="thead-light">
+        <tr class="text-center">
+            <th style="width: auto"> Text  </th>
+            <th style="width: 20%"> Answer </th>
+            <th style="width: 12%"> Difficulty </th>
+            <th> Time </th>
+            <th style="width: 10%">Course </th>
+            <th style="width: 7%"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr class="text-center">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Text)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Answer)
+                </td>
+                <td>
+                    @for (var i = 0; i < item.Difficulty / 2; i++)
+                    {
+                        <i class="text-warning fa fa-star"></i>
+                    }
+                    @if (item.Difficulty % 2 != 0)
+                    {
+                        <i class="text-warning fas fa-star-half-alt"></i>
+                    }
+                    @for (var i = (item.Difficulty + 1) / 2; i < 5; i++)
+                    {
+                        <i class="text-warning far fa-star"></i>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Time)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Course)
+                </td>
+                <td>
+                    <div class="btn-group" role="group" aria-label="Group">
+                        <a asp-action="Details" asp-route-id="@item.qId" class="btn btn-primary btn-sm"><i class="fas fa-info"></i>  </a>
+                        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target=".bd-example-modal-sm">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+
+
+                    </div>
+                </td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+
+
+<!-- Modal -->
+<div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content  text-sm-center  ">
+            <div class="modal-header  text-sm-center">
+                <h4 class="modal-title text-center">Are you sure?</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body text-sm-center">
+                <p>Do you really want to delete that record?</p>
+            </div>
+            <div class="modal-footer ">
+                <div class="col text-center">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" onclick="location.href='@Url.Action("Delete", "Questions", new { id = 1009 })'">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

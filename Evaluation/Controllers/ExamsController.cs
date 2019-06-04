@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +9,8 @@ using Evaluation.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using Evaluation.ViewModels;
+using Evaluation.Controllers;
+using System.Collections.Generic;
 
 namespace Evaluation.Controllers
 {
@@ -39,11 +40,6 @@ namespace Evaluation.Controllers
                     eId = x.eId
                 });
 
-            /*
-
-             var evaluationDBContext = _context.Exam.Include(e => e.ApplicationUser)
-                                                .Where(m => m.ApplicationUserId == userId).ToList();*/
-
             return View(query.ToList());
         }
 
@@ -71,10 +67,16 @@ namespace Evaluation.Controllers
 
         // GET: Exams/Create
         [Authorize(Roles = "Profesor")]
-        public IActionResult Create()
+        public ActionResult Create(int Id)
         {
-            ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id");
-            ViewData["CourseID"] = new SelectList(_context.Course, "cId", "courseName");
+            Exam examCourse = new Exam();
+
+            var loggedUser = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var query = new SelectList(_context.Course.Where(c => c.ApplicationUserId == loggedUser).ToDictionary(us => us.cId, us => us.courseName), "Key", "Value");
+
+            ViewBag.Exams = query;
+
             return View();
         }
 
@@ -86,26 +88,32 @@ namespace Evaluation.Controllers
         [Authorize(Roles = "Profesor")]
         public async Task<IActionResult> Create([Bind("eId,nrQuestions,examTime,examDifficulty,Group,ApplicationUserId,CourseID,examDate")] Exam exam)
         {
+            //SendExamController sendExamController = new SendExamController(_context);
+            //sendExamController.SendExam(exam.nrQuestions, exam.examTime, exam.examDifficulty, exam.CourseID);
+
             var loggedUser = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var list = new List<Question>();
+            var questionGenerated = new Services.QuestionList(_context);
+            //list = Services(exam.nrQuestions, exam.examTime, exam.examDifficulty, exam.CourseID);
+            list = questionGenerated.SendExam(exam.nrQuestions, exam.examTime, exam.examDifficulty, exam.CourseID);
+
+
             if (ModelState.IsValid)
             {
                 exam.ApplicationUserId = loggedUser;
                 exam.examDate = DateTime.Now;
                 _context.Add(exam);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(SendExam));
             }
+            PrepareExam(list);
+            return View(list.ToList());
+        }
 
-            
-
-            var examList = from c in _context.Course
-                 join q in _context.Exams on c.cId equals q.eId
-                 where c.ApplicationUserId == loggedUser
-                 select c.courseName;
-
-            ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id", exam.ApplicationUserId);
-            ViewData["CourseID"] = new SelectList(_context.Course, "cId", "courseName", examList);
-            return View(exam);
+        public IActionResult PrepareExam(List<Question> listItems)
+        {
+            ViewData["MyData"] = listItems.ToList();
+            return View(listItems.ToList());
         }
 
         // GET: Exams/Edit/5
@@ -200,13 +208,6 @@ namespace Evaluation.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
-        [Authorize(Roles = "Profesor")]
-        public IActionResult SendExam(ExamQuestion examQuestion)
-        {
-            return View(examQuestion);
-        }
-
 
         private bool ExamExists(int id)
         {

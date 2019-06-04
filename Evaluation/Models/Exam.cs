@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Evaluation.Models
 {
@@ -9,14 +11,17 @@ namespace Evaluation.Models
 
         [Required]
         [Range(6,60)]
+        [Display(Prompt =" Between 6 and 60")]
         public int nrQuestions { get; set; }
 
         [Required]
         [Range(15,150)]
+        [Display(Prompt = " Between 15 and 150")]
         public int examTime { get; set;}
 
         [Required]
         [Range(1,5)]
+        [Display(Prompt = " Between 1 and 5")]
         public int examDifficulty { get; set;}
 
         [DataType(DataType.Date)]

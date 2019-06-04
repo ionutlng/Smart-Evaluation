@@ -112,8 +112,16 @@ C:\Users\ionut\Desktop\Evaluation\Evaluation\obj\Debug\netcoreapp2.1\Razor\Areas
 C:\Users\ionut\Desktop\Evaluation\Evaluation\obj\Debug\netcoreapp2.1\Razor\Areas\Identity\Pages\_ValidationScriptsPartial.g.cshtml.cs
 C:\Users\ionut\Desktop\Evaluation\Evaluation\obj\Debug\netcoreapp2.1\Razor\Areas\Identity\Pages\_ViewImports.g.cshtml.cs
 C:\Users\ionut\Desktop\Evaluation\Evaluation\obj\Debug\netcoreapp2.1\Razor\Areas\Identity\Pages\_ViewStart.g.cshtml.cs
+C:\Users\ionut\Desktop\Evaluation\Evaluation\obj\Debug\netcoreapp2.1\Razor\Views\Questions\Create.g.cshtml.cs
+C:\Users\ionut\Desktop\Evaluation\Evaluation\obj\Debug\netcoreapp2.1\Razor\Views\Questions\Delete.g.cshtml.cs
+C:\Users\ionut\Desktop\Evaluation\Evaluation\obj\Debug\netcoreapp2.1\Razor\Views\Questions\Details.g.cshtml.cs
+C:\Users\ionut\Desktop\Evaluation\Evaluation\obj\Debug\netcoreapp2.1\Razor\Views\Questions\Edit.g.cshtml.cs
+C:\Users\ionut\Desktop\Evaluation\Evaluation\obj\Debug\netcoreapp2.1\Razor\Views\Questions\Index.g.cshtml.cs
 C:\Users\ionut\Desktop\Evaluation\Evaluation\obj\Debug\netcoreapp2.1\Razor\Views\Exams\Create.g.cshtml.cs
 C:\Users\ionut\Desktop\Evaluation\Evaluation\obj\Debug\netcoreapp2.1\Razor\Views\Exams\Delete.g.cshtml.cs
 C:\Users\ionut\Desktop\Evaluation\Evaluation\obj\Debug\netcoreapp2.1\Razor\Views\Exams\Details.g.cshtml.cs
 C:\Users\ionut\Desktop\Evaluation\Evaluation\obj\Debug\netcoreapp2.1\Razor\Views\Exams\Edit.g.cshtml.cs
 C:\Users\ionut\Desktop\Evaluation\Evaluation\obj\Debug\netcoreapp2.1\Razor\Views\Exams\Index.g.cshtml.cs
+C:\Users\ionut\Desktop\Evaluation\Evaluation\obj\Debug\netcoreapp2.1\Razor\Views\SendExam.g.cshtml.cs
+C:\Users\ionut\Desktop\Evaluation\Evaluation\obj\Debug\netcoreapp2.1\Razor\Views\SendExam\SendExam.g.cshtml.cs
+C:\Users\ionut\Desktop\Evaluation\Evaluation\obj\Debug\netcoreapp2.1\Razor\Views\Exams\PrepareExam.g.cshtml.cs

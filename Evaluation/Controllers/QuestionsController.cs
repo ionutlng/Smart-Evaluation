@@ -9,6 +9,7 @@ using Evaluation.Data;
 using Evaluation.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Evaluation.ViewModels;
 
 namespace Evaluation.Controllers
 {
@@ -23,16 +24,23 @@ namespace Evaluation.Controllers
 
         // GET: Questions
         [Authorize(Roles = "Profesor")]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var loggedUser = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var result = from c in _context.Course
-                         join q in _context.Question on c.cId equals q.CourseId
-                         where c.ApplicationUserId == loggedUser
-                         select q;
+            var query = _context.Question.Where(m => m.Course.ApplicationUserId == userId)
+                .Select(x => new QuestionCourse
+                {
+                    Text = x.Text,
+                    Answer = x.Answer,
+                    Difficulty = x.Difficulty,
+                    Time = x.Time,
+                    Course = x.Course.courseName,
+                    qId = x.qId
+                });
 
-            return View(await result.ToListAsync());
+            return View(query.ToList());
+
         }
 
         // GET: Questions/Details/5
@@ -59,9 +67,14 @@ namespace Evaluation.Controllers
         [Authorize(Roles = "Profesor")]
         public IActionResult Create()
         {
-    
-            ViewData["CourseId"] = new SelectList(_context.Set<Course>(), "cId", "courseName");
+            var loggedUser = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var query = new SelectList(_context.Course.Where(c => c.ApplicationUserId == loggedUser).ToDictionary(us => us.cId, us => us.courseName), "Key", "Value");
+
+            ViewBag.Questions = query;
+
             return View();
+           
         }
 
         // POST: Questions/Create

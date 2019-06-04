@@ -3,9 +3,12 @@
 @{
     ViewData["Title"] = "Create";
 }
-<br /><br>
-<h2 class="text-center"> Create exam   </h2>
-<a asp-action="Index"><i class="fas fa-arrow-alt-circle-left fa-2x"></i></a>
+<br /><br />
+<p>
+
+    <a asp-action="Index"><i class="fas fa-arrow-alt-circle-left fa-2x"></i></a>
+    <h2 class="text-center"> Create exam</h2>
+</p>
 <hr />
 <div class="row ">
     <div class="col-md-4 mx-auto ">
@@ -13,12 +16,12 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <h6 class="text-center">Number of questions</h6>
-                <input asp-for="nrQuestions" class="form-control text-center" />
+                <input asp-for="nrQuestions" class="form-control" />
                 <span asp-validation-for="nrQuestions" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <h6 class="text-center">Exam time</h6>
-                <input asp-for="examTime" class="form-control text-center" />
+                <input asp-for="examTime" asp-placeholder-for="" class="form-control text-center" />
                 <span asp-validation-for="examTime" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -33,7 +36,8 @@
             </div>
             <div class="form-group">
                 <h6 class="text-center">Course</h6>
-                <select asp-for="CourseID" class="form-control" asp-items="ViewBag.CourseID"></select>
+                <select asp-for="CourseID " class="form-control align-self-center" asp-items="ViewBag.Exams"></select>
+
             </div>
             <br />
             <div class="form-group text-center">

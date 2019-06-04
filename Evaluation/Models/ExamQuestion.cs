@@ -1,4 +1,6 @@
-﻿namespace Evaluation.Models
+﻿using System.Collections.Generic;
+
+namespace Evaluation.Models
 {
     public class ExamQuestion
     {

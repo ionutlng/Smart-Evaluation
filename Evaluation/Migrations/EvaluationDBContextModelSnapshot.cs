@@ -102,6 +102,8 @@ namespace Evaluation.Migrations
 
                     b.Property<int?>("Group");
 
+                    b.Property<DateTime?>("examDate");
+
                     b.Property<int>("examDifficulty");
 
                     b.Property<int>("examTime");
