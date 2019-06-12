@@ -11,6 +11,7 @@ using System.Security.Claims;
 using Evaluation.ViewModels;
 using Evaluation.Controllers;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Routing;
 
 namespace Evaluation.Controllers
 {
@@ -86,35 +87,26 @@ namespace Evaluation.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Profesor")]
-        public async Task<IActionResult> Create([Bind("eId,nrQuestions,examTime,examDifficulty,Group,ApplicationUserId,CourseID,examDate")] Exam exam)
+        public IActionResult Create([Bind("eId,nrQuestions,examTime,examDifficulty,Group,ApplicationUserId,CourseID,examDate")] Exam exam)
         {
-            //SendExamController sendExamController = new SendExamController(_context);
-            //sendExamController.SendExam(exam.nrQuestions, exam.examTime, exam.examDifficulty, exam.CourseID);
-
             var loggedUser = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
             var list = new List<Question>();
             var questionGenerated = new Services.QuestionList(_context);
-            //list = Services(exam.nrQuestions, exam.examTime, exam.examDifficulty, exam.CourseID);
             list = questionGenerated.SendExam(exam.nrQuestions, exam.examTime, exam.examDifficulty, exam.CourseID);
-
+            QuestionsController questionsController = new QuestionsController(_context);
 
             if (ModelState.IsValid)
             {
                 exam.ApplicationUserId = loggedUser;
                 exam.examDate = DateTime.Now;
                 _context.Add(exam);
-                await _context.SaveChangesAsync();
+                _context.SaveChangesAsync();
+                return RedirectToAction("Index", "ExamQuestions");
             }
-            PrepareExam(list);
-            return View(list.ToList());
+            return RedirectToAction("Index", "ExamQuestions");
         }
 
-        public IActionResult PrepareExam(List<Question> listItems)
-        {
-            ViewData["MyData"] = listItems.ToList();
-            return View(listItems.ToList());
-        }
+
 
         // GET: Exams/Edit/5
         [Authorize(Roles = "Profesor")]

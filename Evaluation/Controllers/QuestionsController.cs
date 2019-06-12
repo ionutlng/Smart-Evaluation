@@ -194,5 +194,11 @@ namespace Evaluation.Controllers
         {
             return _context.Question.Any(e => e.qId == id);
         }
+
+        public IActionResult PrepareExam(List<Question> listItems)
+        {
+            return View(listItems);
+        }
+
     }
 }

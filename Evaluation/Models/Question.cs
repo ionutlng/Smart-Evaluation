@@ -31,10 +31,5 @@ namespace Evaluation.Models
         public virtual Course Course { get; set; }
 
         public ICollection<ExamQuestion> ExamQuestions { get; set; }
-
-        public static implicit operator List<object>(Question v)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

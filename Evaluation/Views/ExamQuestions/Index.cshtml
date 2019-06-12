@@ -1,0 +1,69 @@
+﻿@model List<Evaluation.Models.Question>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{int time = 0;}
+@foreach(var item in Model)
+{ 
+time += item.Time;
+}
+
+<p></p>
+<div class="starrating risingstar d-flex justify-content-center flex-row-reverse"></div>
+<br />
+<p>
+    <button type="button" class="btn btn-primary btn-sm disabled" data-toggle="tooltip" data-placement="bottom" title="The exam will take @time minutes"> The exam will end at     
+        <span class="badge badge-light"> @DateTime.Now.AddMinutes(@time).ToString("HH:mm")</span>
+    </button>
+        <a asp-action="Create" class="btn btn-success btn-sm float-right">Send</a>
+</p>
+<table class="table table-hover table-sm table-bordered">
+    <thead class="thead-light">
+        <tr class="text-center">
+            <th style="width: auto"> Text  </th>
+            <th style="width: 20%"> Answer </th>
+            <th style="width: 12%"> Difficulty </th>
+            <th> Time </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody class="text-center">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Text)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Answer)
+                </td>
+                <td>
+                    @for (var i = 0; i < item.Difficulty / 2; i++)
+                    {
+                        <i class="text-warning fa fa-star"></i>
+                    }
+                    @if (item.Difficulty % 2 != 0)
+                    {
+                        <i class="text-warning fas fa-star-half-alt"></i>
+                    }
+                    @for (var i = (item.Difficulty + 1) / 2; i < 5; i++)
+                    {
+                        <i class="text-warning far fa-star"></i>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Time)
+                </td>
+                <td class="text-center" >
+                    <button class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="bottom" title="Replace this question"><i class="fas fa-sync"></i></button>
+                    @*Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                     @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
