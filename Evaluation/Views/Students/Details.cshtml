@@ -1,0 +1,27 @@
+﻿@model List<Evaluation.Models.Question>
+
+@{
+    ViewData["Title"] = "Take Exam";
+}
+<br /><br />
+      <h2 class="text-center">
+          Take exam
+          <form asp-action="Details">
+              <input type="submit" class="btn btn-primary float-right">
+      </h2>
+<br /><br />
+
+
+
+<div class="row ">
+    <div class="col-md-4 mx-auto ">
+            @foreach (var item in Model)
+            {
+                <div class="form-group">
+                    <h6 for="exampleFormControlTextarea3" class="text-center">@Html.DisplayFor(modelItem => item.Text)</h6>
+                    <textarea class="form-control" name="textarea3" id="exampleFormControlTextarea3" rows="3"></textarea>
+                </div>
+            }
+        </form>
+    </div>
+</div>

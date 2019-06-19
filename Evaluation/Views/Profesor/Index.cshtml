@@ -20,12 +20,9 @@
                 <div class="team-back">
                     <span>
                         <br /><br />
-                        <p>
-                            @Html.ActionLink("CREATE", "Create", "Exams", null, new { @style = "font-italic" });
-                        </p>
-                        <p> 
-                            @Html.ActionLink("MY EXAMS", "Index", "Exams");
-                        </p>
+                        <a class="text-primary font-weight-bold  font-italic " style="font-size:x-large" href="@Url.Action("Create","Exams")">CREATE</a>
+                        <br />
+                        <a class="text-primary font-weight-bold  font-italic" style="font-size:x-large" href="@Url.Action("Index","Exams")">MY EXAMS</a>
                     </span>
                 </div>
 
@@ -44,12 +41,9 @@
                 <div class="team-back">
                     <span>
                         <br /><br />
-                        <p>
-                            @Html.ActionLink("CREATE", "Create", "Questions");
-                        </p>
-                        <p>
-                            @Html.ActionLink("MY QUESTIONS", "Index", "Questions");
-                        </p>
+                        <a class="text-primary font-weight-bold  font-italic " style="font-size:x-large" href="@Url.Action("Create","Questions")">CREATE</a>
+                        <br />
+                        <a class="text-primary font-weight-bold  font-italic " style="font-size:x-large" href="@Url.Action("Index","Questions")">MY QUESTIONS</a>
                     </span>
                 </div>
             </div>
@@ -80,5 +74,5 @@
 
 
 @section Styles{
-    <link href="@Url.Content("~/css/dashboard.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("/css/dashboard.css")" rel="stylesheet" type="text/css" />
 }

@@ -18,7 +18,7 @@ time += item.Time;
     <button type="button" class="btn btn-primary btn-sm disabled" data-toggle="tooltip" data-placement="bottom" title="The exam will take @time minutes"> The exam will end at     
         <span class="badge badge-light"> @DateTime.Now.AddMinutes(@time).ToString("HH:mm")</span>
     </button>
-        <a asp-action="Create" class="btn btn-success btn-sm float-right">Send</a>
+        <a asp-action="Create" class="btn btn-primary btn-sm float-right">Send</a>
 </p>
 <table class="table table-hover table-sm table-bordered">
     <thead class="thead-light">

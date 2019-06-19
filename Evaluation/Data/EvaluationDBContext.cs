@@ -75,39 +75,14 @@ namespace Evaluation.Data
                 .OnDelete(DeleteBehavior.Restrict);
         }
 
+        //public DbSet<StudAnswer> Answer { get; set; }
         public DbSet<Exam> Exam { get; set; }
         public DbSet<Course> Course { get; set; }
         public DbSet<Question> Question { get; set; }
-        public DbSet<Evaluation.Models.ExamQuestion> ExamQuestion { get; set; }
-
-        // public DbSet<Evaluation.Models.Student> Student { get; set; }
-        /*
-          //One prof can have many questions created
-          modelBuilder.Entity<Question>()
-             .HasOne(a => a.ApplicationUser)
-             .WithMany(q => q.Questions)
-             .HasForeignKey(f => f.ApplicationUserId)
-             .OnDelete(DeleteBehavior.Cascade);
-
-          //One course can have many question
-          */
-
-        /* One student can have many courses
-         * One course can have many students 
-        modelBuilder.Entity<CourseStudent>().HasKey(t => new { t.ApplicationUserId, t.CourseId });
-
-        modelBuilder.Entity<CourseStudent>()
-            .HasOne(c => c.Course)
-            .WithMany(cs => cs.CourseStudents)
-            .HasForeignKey(c => c.CourseId)
-            .OnDelete(DeleteBehavior.Restrict);
-
-        modelBuilder.Entity<CourseStudent>()
-            .HasOne(c => c.ApplicationUser)
-            .WithMany(cs => cs.CourseStudents)
-            .HasForeignKey(c => c.ApplicationUserId)
-            .OnDelete(DeleteBehavior.Restrict);
-            */
+        public DbSet<ApplicationUser> ApplicationUser { get; set; }
+        public DbSet<ExamQuestion> ExamQuestion { get; set; }
+        public DbSet<StudExam> StudExam { get; set; }
+        public DbSet<StudAnswer> StudAnswer { get; set; }
     }
 
 }

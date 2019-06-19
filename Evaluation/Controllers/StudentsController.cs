@@ -1,6 +1,14 @@
 ﻿using Evaluation.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using System.Linq;
+using Evaluation.ViewModels;
+using Microsoft.AspNetCore.Identity;
+using Evaluation.Models;
+using System.Data.SqlTypes;
+using System.Threading.Tasks;
+using System;
 
 namespace Evaluation.Controllers
 {
@@ -16,140 +24,91 @@ namespace Evaluation.Controllers
 
         [Authorize(Roles = "Student")]
         [HttpGet]
-        public ActionResult Login()
+        public ActionResult LogIn()
         {
-            return View();
-        }
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        /* public async Task<ActionResult> Create( Student student)
-         {
-             bool status = false;
-             string message = "";
+            ApplicationUser applicationUser = new ApplicationUser();
 
-             if (ModelState.IsValid)
-             {
-                 var isExist = emailExist(student.studUsername);
-                 if (isExist)
-                 {
-                     ModelState.AddModelError("EmailExist", "Email already exist");
-                     return View(student);
-                 }
+            var group = _context.ApplicationUser.Where(a => a.Id == userId).FirstOrDefault();
 
-                 //student.activationCode = System.Guid.NewGuid();
+            var query = _context.Exam.Where(m => m.Group == group.Group)
+                .Select(x => new ExamCourse
+                {
+                    examDate = x.examDate,
+                    examDifficulty = x.examDifficulty,
+                    courseName = x.Course.courseName,
+                    eId = x.eId
+                }).ToList();
 
-                 student.studPassword = Services.Crypto.Hash(student.studPassword);
-                 student.confirmPassword = Services.Crypto.Hash(student.confirmPassword);
-
-                // student.emailVerified = false;
-
-                 string link =  HttpContext.Request.GetEncodedUrl().ToString().Replace(HttpContext.Request.Path,"/Students/Verify/");
-
-                  _context.Add(student);
-                 await _context.SaveChangesAsync();
-
-                // Services.SendEmail.SendVerificationEmail(student.studUsername, student.activationCode.ToString(), link);
-                 message = "Registration succes " + student.studUsername;
-                     status = true;
-                 }
-             else
-             {
-                 message = "Invalid request";
-             }
-
-             ViewBag.Message = message;
-             ViewBag.Status = status;
-             return View(student);
-         }*/
-
-        [HttpGet]
-       /* public ActionResult Verify(string id)
-        {
-            bool Status = false;
-
-           // Student v = _context.Student.Where(a => a.activationCode == new System.Guid(id)).FirstOrDefault();
-           if (v != null)
+            for(int i = 0; i<query.Count; i++)
             {
-              //  v.emailVerified = true;
-                _context.SaveChanges();
-                Status = true;
+                query[i].solved = IsExamSolved(query[i].eId);
             }
-            else
-            {
-                ViewBag.Message = "Invalid Request";
-            }
-
-            ViewBag.Status = Status;
-            return View();
-        }*/
-
-        // GET: Students
-       /* public async Task<IActionResult> Index()
-        {
-            return View(await _context.Student.ToListAsync());
-        }
-        */
-
-        /*GET: Students/Create
-        public IActionResult Create()
-        {
-            ViewData["sId"] = new SelectList(_context.Set<Student>(), "sId", "studPassword");
-
-            return View();
-
-        }
-
-        private bool StudentExists(int id)
-        {
-            return _context.Student.Any(e => e.sId == id);
-        }
-
-        [NonAction]
-        public bool emailExist(string email)
-        {
-            var v = _context.Student.Where(a => a.studUsername == email).FirstOrDefault();
-            return v != null;
             
-        }*/
+            return View(query);
+        }
 
-      
+        public IActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var questions = from q in _context.Question
+                            join eq in _context.ExamQuestion on q.qId equals eq.qId
+                            where eq.eId == id
+                            select q;
+
+            if (questions == null)
+            {
+                return NotFound();
+            }
+            return View(questions.ToList());
+        }
 
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
-       /* public ActionResult Login(StudentLogIn login, string ReturnUrl = "")
+        [Authorize(Roles = "Student")]
+        public async Task<IActionResult> Details(StudAnswer studAnswer)
         {
-            string message = "";
+            var examId = RouteData.Values["id"];
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            Student v = _context.Student.Where(a => a.studUsername == login.Email).FirstOrDefault();
+            System.Collections.Generic.List<ExamQuestion> StudQuestionsList = _context.ExamQuestion.Where(aa => aa.eId == Convert.ToUInt32(examId)).ToList();
 
-                if (v != null)
+            string[] StudAnswerList = Request.Form["textarea3"].ToString().Split(new[] { ',' });
+
+            var CurrentExam  = _context.StudExam.Where(a => a.EId == Convert.ToUInt32(examId) && a.ApplicationUserId == userId).FirstOrDefault();
+
+            if (ModelState.IsValid)
+            {
+                for(int i = 0; i < StudQuestionsList.Count; i++)
                 {
-                    if (true == false)
-                    {
-                        ViewBag.Message = "Please verify your email first";
-                        return View();
-                    }
+                    studAnswer.AnswerId = Guid.NewGuid().ToString();
+                    studAnswer.Answer = StudAnswerList[i];
+                    studAnswer.QuestionId = StudQuestionsList[i].qId;
+                    studAnswer.ExamId = CurrentExam.StudExamId;
+                    CurrentExam.IsSolved = true;
 
-                    if (string.Compare(Services.Crypto.Hash(login.Password), v.studPassword) == 0)
-                    {
-                        if (Url.IsLocalUrl(ReturnUrl))
-                        {
-                            return Redirect(ReturnUrl);
-                        }
-                        else
-                        {
-                            return RedirectToAction("Index", "Students");
-                        }
-                    }
+                    _context.Add(studAnswer);
+                    await _context.SaveChangesAsync();
                 }
-                    else
-                    {
-                    message = "Invalid credential provided";
-                    }
-            
-            ViewBag.Message = message;
-            return View();
-        }*/
+            }
+
+            return Redirect("~/Students/LogIn");
+        }
+
+        public bool IsExamSolved(int id)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var CurrentExam = _context.StudExam.Where(a => a.EId == id && a.ApplicationUserId == userId).FirstOrDefault();
+
+            return CurrentExam.IsSolved == true ? true : false;
+        }
+
 
         [HttpPost]
         [Authorize]

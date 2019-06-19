@@ -22,7 +22,7 @@ namespace Evaluation.Controllers
         }
 
         // GET: ExamQuestions
-        public ViewResult Index()
+        public ActionResult Index()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var exam = _context.Exam.Where(a => a.ApplicationUserId == userId).Last();
@@ -31,7 +31,15 @@ namespace Evaluation.Controllers
             var questionGenerated = new Services.QuestionList(_context);
             list = questionGenerated.SendExam(exam.nrQuestions, exam.examTime, exam.examDifficulty, exam.CourseID).ToList();
 
-            List<QuestionCourse> questionCourse = new List<QuestionCourse>(list.Count);
+            ExamQuestion examQuestion = new ExamQuestion();
+            examQuestion.eId = exam.eId;
+
+            for(int i = 0; i<list.Count; i++)
+            {
+                examQuestion.qId = list[i].qId;
+                _context.Add(examQuestion);
+                _context.SaveChanges();
+            }
             return View(list);
 
         }
@@ -59,9 +67,7 @@ namespace Evaluation.Controllers
         // GET: ExamQuestions/Create
         public IActionResult Create()
         {
-            ViewData["qId"] = new SelectList(_context.Exam, "qId", "qId");
-            ViewData["eId"] = new SelectList(_context.Exam, "eId", "eId");
-            return View();
+           return Redirect("~/Profesor/Index");
         }
 
         // POST: ExamQuestions/Create
@@ -71,6 +77,8 @@ namespace Evaluation.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("qId,eId")] ExamQuestion examQuestion)
         {
+            
+
             if (ModelState.IsValid)
             {
                 _context.Add(examQuestion);

@@ -40,5 +40,6 @@ namespace Evaluation.Models
 
         public virtual ICollection<ExamQuestion> ExamQuestions { get; set; }
         public virtual ICollection<Feedback> Feedbacks { get; set; }
+        public virtual ICollection<StudExam> StudExams { get; set; }
     }
 }

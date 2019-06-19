@@ -89,18 +89,32 @@ namespace Evaluation.Controllers
         [Authorize(Roles = "Profesor")]
         public IActionResult Create([Bind("eId,nrQuestions,examTime,examDifficulty,Group,ApplicationUserId,CourseID,examDate")] Exam exam)
         {
-            var loggedUser = User.FindFirstValue(ClaimTypes.NameIdentifier);
+           
             var list = new List<Question>();
             var questionGenerated = new Services.QuestionList(_context);
             list = questionGenerated.SendExam(exam.nrQuestions, exam.examTime, exam.examDifficulty, exam.CourseID);
-            QuestionsController questionsController = new QuestionsController(_context);
 
+            StudExam studExam = new StudExam();
+            var studId = _context.ApplicationUser.Where(a => a.Group == exam.Group).Select(u => u.Id).ToList();
+
+            var loggedUser = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (ModelState.IsValid)
             {
                 exam.ApplicationUserId = loggedUser;
                 exam.examDate = DateTime.Now;
                 _context.Add(exam);
-                _context.SaveChangesAsync();
+                _context.SaveChanges();
+
+                studExam.EId = exam.eId;
+                studExam.IsSolved = false;
+                for(int i=0; i<studId.Count; i++)
+                {
+                    studExam.ApplicationUserId = studId[i];
+                    studExam.StudExamId = Guid.NewGuid().ToString();
+                    _context.Add(studExam);
+                    _context.SaveChanges();
+                }
+               
                 return RedirectToAction("Index", "ExamQuestions");
             }
             return RedirectToAction("Index", "ExamQuestions");
