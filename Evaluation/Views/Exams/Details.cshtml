@@ -1,48 +1,64 @@
-﻿@model Evaluation.Models.Exam
+﻿@model List<Evaluation.ViewModels.StudGrades>
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Exam Status";
 }
 
-<h2>Details</h2>
+<br /><br />
+      <p>
+          <a asp-action="Index"><i class="fas fa-arrow-alt-circle-left fa-2x"></i></a>
+          <button type="button" class="btn btn-primary btn-sm float-right" onclick="Print()">Print</button>
+      </p>
 
-<div>
-    <h4>Exam</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.nrQuestions)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.nrQuestions)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.examTime)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.examTime)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.examDifficulty)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.examDifficulty)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Group)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Group)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Course)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Course.courseName)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.eId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+<table class="table table-hover table-sm table-bordered border='1' cellpadding='1'" id="PrintTable">
+    <thead class="thead-light">
+        <tr class="text-center">
+            <th>  Student        </th>
+            <th>  Group          </th>
+            <th>  Grade          </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr class="text-center">
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplicationUserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Group)
+            </td>
+            @if (item.IsSolved == true && item.Grade == null)
+            {
+            <td>
+                <a asp-action="Grade" asp-route-id="@item.studExamId" class="btn btn-primary btn-sm">Grade </a>
+            </td>
+             }
+             @if (item.IsSolved == true && item.Grade != null)
+             {
+              <td>
+                <button type="button" class="btn btn-outline-primary btn-sm">@Html.DisplayFor(modelItem => item.Grade)</button>
+              </td>
+             }
+             @if (item.IsSolved == false)
+               {
+                 <td>
+                    <button type="button" class="btn btn-dark btn-sm" disabled>In exam</button>
+                 </td>
+               }
+        </tr>
+        }
+    </tbody>
+</table>
+
+
+<script type="text/javascript">
+    function Print() {
+        var divToPrint = document.getElementById("PrintTable");
+        newWin = window.open("");
+        newWin.document.write(divToPrint.outerHTML);
+        newWin.print();
+        newWin.close();
+    }
+
+</script>

@@ -10,13 +10,13 @@ namespace Evaluation.Models
         [Key] public int eId { get; set; }
 
         [Required]
-        [Range(6,60)]
-        [Display(Prompt =" Between 6 and 60")]
+        [Range(6,20)]
+        [Display(Prompt =" Between 6 and 20")]
         public int nrQuestions { get; set; }
 
         [Required]
-        [Range(15,150)]
-        [Display(Prompt = " Between 15 and 150")]
+        [Range(30,150)]
+        [Display(Prompt = " Between 30 and 120")]
         public int examTime { get; set;}
 
         [Required]

@@ -8,8 +8,8 @@
 <div class="starrating risingstar d-flex justify-content-center flex-row-reverse"></div>
 <br />
 <p>
-      <a asp-controller="Profesor" asp-action="Index"><i class="fas fa-arrow-alt-circle-left fa-2x"></i></a>
-      <a asp-action="Create" class="btn btn-primary btn-sm float-right">Create New</a>
+    <a asp-controller="Profesor" asp-action="Index"><i class="fas fa-arrow-alt-circle-left fa-2x"></i></a>
+    <a asp-action="Create" class="btn btn-primary btn-sm float-right">Create New</a>
 </p>
 <table class="table table-hover table-sm table-bordered">
     <thead class="thead-light">
@@ -18,9 +18,7 @@
             <th>  Course         </th>
             <th>  Difficulty     </th>
             <th>  Group          </th>
-            <th>
-
-            </th>
+            <th>  Status         </th>
         </tr>
     </thead>
     <tbody>
@@ -48,8 +46,7 @@
                 </td>
                 <td>
                     <div class="btn-group" role="group" aria-label="Group">
-                        <a asp-action="Details" asp-route-id="@item.eId" class="btn btn-primary btn-sm"><i class="fas fa-info"></i>  </a>
-                        <a asp-action="Delete" asp-route-id="@item.eId" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> </a>
+                        <a asp-action="Details" asp-route-id="@item.eId" class="btn btn-primary btn-sm">Info </a>
                     </div>
                 </td>
             </tr>

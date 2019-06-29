@@ -40,10 +40,14 @@ namespace Evaluation.Controllers
                     courseName = x.Course.courseName,
                     eId = x.eId
                 }).ToList();
-
+           
             for(int i = 0; i<query.Count; i++)
             {
                 query[i].solved = IsExamSolved(query[i].eId);
+                if(GetGrade(query[i].eId) != decimal.Zero)
+                {
+                    query[i].grade = GetGrade(query[i].eId);
+                }
             }
             
             return View(query);
@@ -97,6 +101,7 @@ namespace Evaluation.Controllers
                 }
             }
 
+
             return Redirect("~/Students/LogIn");
         }
 
@@ -107,6 +112,15 @@ namespace Evaluation.Controllers
             var CurrentExam = _context.StudExam.Where(a => a.EId == id && a.ApplicationUserId == userId).FirstOrDefault();
 
             return CurrentExam.IsSolved == true ? true : false;
+        }
+
+        public decimal GetGrade(int id)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var CurrentExam = _context.StudExam.Where(a => a.EId == id && a.ApplicationUserId == userId).FirstOrDefault();
+
+            return CurrentExam.Grade != null ? (decimal)CurrentExam.Grade : Decimal.Zero;
         }
 
 

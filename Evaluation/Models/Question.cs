@@ -23,13 +23,16 @@ namespace Evaluation.Models
         public int Difficulty { get; set; }
 
         [Required]
-        [Range(1, 8)]
-        [Display(Prompt = "Between 1 and 8")]
+        [Range(3, 20)]
+        [Display(Prompt = "Between 3 and 20")]
         public int Time { get; set; }
 
         public int CourseId{get;set;}
         public virtual Course Course { get; set; }
 
         public ICollection<ExamQuestion> ExamQuestions { get; set; }
+
+
+        public virtual ICollection<StudAnswer> StudAnswer { get; set; }
     }
 }

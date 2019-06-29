@@ -13,5 +13,7 @@ namespace Evaluation.Models
         public int EId { get; set; }
         public bool IsSolved { get; set; }
         public decimal? Grade { get; set; }
+
+        public virtual Exam Exam { get; set; }
     }
 }

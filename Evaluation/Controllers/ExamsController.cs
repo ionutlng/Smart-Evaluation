@@ -44,27 +44,48 @@ namespace Evaluation.Controllers
             return View(query.ToList());
         }
 
-
         // GET: Exams/Details/5
         [Authorize(Roles = "Profesor")]
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var exam = await _context.Exam
-                .Include(e => e.ApplicationUser)
-                .Include(e => e.Course)
-                .FirstOrDefaultAsync(m => m.eId == id);
-            if (exam == null)
+            var query = _context.StudExam.Where(e => e.EId == id)
+                .Select(x => new StudGrades
+                {
+                    ApplicationUserId = x.ApplicationUserId,
+                    Grade = x.Grade,
+                    Group = x.Exam.Group,
+                    IsSolved = x.IsSolved,
+                    studExamId = x.StudExamId
+                });
+
+            return View(query.ToList());
+        }
+
+        [Authorize(Roles ="Profesor")]
+        public IActionResult Grade(string id)
+        {
+            if (id==null)
             {
                 return NotFound();
             }
 
-            return View(exam);
+            var query = _context.StudAnswer.Where(e => e.ExamId == id)
+                        .Select(x => new GradeExam
+                        {
+                            QuestionText = x.Question.Text,
+                            CorrectAnswer = x.Question.Answer,
+                            StudentAnswer = x.Answer
+                        });
+            return View(query.ToList());
         }
+
+
+
 
         // GET: Exams/Create
         [Authorize(Roles = "Profesor")]
@@ -81,6 +102,22 @@ namespace Evaluation.Controllers
             return View();
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Profesor")]
+        public IActionResult Grade(GradeExam gradeExam)
+        {
+            var examId = RouteData.Values["id"];
+            var GradeExam = _context.StudExam.Where(x => x.StudExamId == examId.ToString()).FirstOrDefault();
+            var StudentGrade = Request.Form["grade1"].ToString();
+            GradeExam.Grade = decimal.Parse(StudentGrade);
+
+            _context.SaveChanges();
+
+            return RedirectToAction("Details", new { id = GradeExam.EId });
+           
+        }
+
         // POST: Exams/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -89,7 +126,6 @@ namespace Evaluation.Controllers
         [Authorize(Roles = "Profesor")]
         public IActionResult Create([Bind("eId,nrQuestions,examTime,examDifficulty,Group,ApplicationUserId,CourseID,examDate")] Exam exam)
         {
-           
             var list = new List<Question>();
             var questionGenerated = new Services.QuestionList(_context);
             list = questionGenerated.SendExam(exam.nrQuestions, exam.examTime, exam.examDifficulty, exam.CourseID);

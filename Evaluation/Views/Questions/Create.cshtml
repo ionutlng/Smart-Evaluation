@@ -24,17 +24,17 @@
             </div>
             <div class="form-group">
                 <h6 class="text-center">Question difficulty</h6>
-                <input asp-for="Difficulty" class="form-control text-center" />
+                <input asp-for="Difficulty" class="form-control" />
                 <span asp-validation-for="Difficulty" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <h6 class="text-center">Time</h6>
-                <input asp-for="Time" class="form-control text-center" />
+                <input asp-for="Time" class="form-control" />
                 <span asp-validation-for="Time" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <h6 class="text-center">Course</h6>
-                <select asp-for="CourseId" class="form-control text-center" asp-items="ViewBag.Questions"></select>
+                <select asp-for="CourseId" class="form-control" asp-items="ViewBag.Questions"></select>
             </div>
             <br />
             <div class="form-group text-center">

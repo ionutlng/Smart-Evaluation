@@ -12,35 +12,38 @@
         <tr class="text-center">
             <th>  Course         </th>
             <th>  Date           </th>
-            <th>
-
-            </th>
+            <th>                </th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr class="text-center">
+        <tr class="text-center">
+            <td>
+                @Html.DisplayFor(modelItem => item.courseName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.examDate)
+            </td>
+            
+            @if (item.solved == true && item.grade == null)
+            {<td>
+                <button type="button" class="btn btn-dark btn-sm" disabled>Submitted</button>
+            </td>
+            }
+             @if (item.solved == true && item.grade != null)
+            {
                 <td>
-                    @Html.DisplayFor(modelItem => item.courseName)
+                    <button type="button" class="btn btn-outline-primary btn-sm">@Html.DisplayFor(modelItem => item.grade)</button>
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.examDate)
-                </td>
-                <td>
-                    <div class="btn-group" role="group" aria-label="Group">
-                        @if (item.solved == true)
-                        {
-                            <button type="button" class="btn btn-dark btn-sm" disabled>Submitted</button>
-                        }
-                        else
-                        {
-                            <a asp-action="Details" asp-route-id="@item.eId" class="btn btn-primary btn-sm">Take exam  </a>
-                        }
-
-                    </div>
-                </td>
-            </tr>
+                }
+             @if (item.solved == false)
+             {
+                 <td>
+                     <a asp-action="Details" asp-route-id="@item.eId" class="btn btn-primary btn-sm">Take exam  </a>
+                 </td>
+             }
+                </tr>
         }
     </tbody>
 </table>

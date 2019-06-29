@@ -1,0 +1,47 @@
+﻿@model List<Evaluation.ViewModels.GradeExam>
+
+@{
+    ViewData["Title"] = "Grade Exam";
+}
+
+<br /><br />
+
+
+<table class="table table-hover table-sm table-bordered">
+    <thead class="thead-light">
+        <tr class="text-center">
+            <th>  Question Text         </th>
+            <th>  Corect Answer         </th>
+            <th>  Student Answer        </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr class="text-center">
+            <td>
+                @Html.DisplayFor(modelItem => item.QuestionText)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CorrectAnswer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentAnswer)
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+<br /><br />
+
+<div class="col col-sm-3 float-right">
+    <div class="input-group input-group mb-3">
+        <form asp-action="Grade">
+            <input type="number" min="0" class="form-control" placeholder="Student's grade" aria-label="Student's grade" aria-describedby="basic-addon2" name="grade1">
+            <div class="input-group-append">
+                <input type="submit" value="Grade" class="btn btn-primary" />
+               
+            </div>
+         </form>
+    </div>
+</div>

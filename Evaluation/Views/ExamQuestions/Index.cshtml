@@ -27,7 +27,7 @@ time += item.Time;
             <th style="width: 20%"> Answer </th>
             <th style="width: 12%"> Difficulty </th>
             <th> Time </th>
-            <th></th>
+            @*<th></th>*@
         </tr>
     </thead>
     <tbody class="text-center">
@@ -57,12 +57,12 @@ time += item.Time;
                 <td>
                     @Html.DisplayFor(modelItem => item.Time)
                 </td>
-                <td class="text-center" >
-                    <button class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="bottom" title="Replace this question"><i class="fas fa-sync"></i></button>
-                    @*Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                     @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
-                </td>
+              
+                    @* <button class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="bottom" title="Replace this question"><i class="fas fa-sync"></i></button>
+        Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+         @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+              
             </tr>
         }
     </tbody>

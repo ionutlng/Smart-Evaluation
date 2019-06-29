@@ -11,6 +11,7 @@ namespace Evaluation.ViewModels
         public int? Group { get; set; }
 
         public bool solved { get; set; }
+        public decimal? grade { get; set; }
 
         public int eId { get; set; }
     }
